@@ -1,0 +1,45 @@
+@import "../../shared/styles/colors.scss";
+
+%container {
+  width: 100%;
+  height: 100%;
+  max-width: 1240px;
+  margin: auto;
+  padding: 0 1rem;
+}
+
+.app {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  .app__header {
+    width: 100%;
+  }
+  .app__body {
+    width: 100%;
+    flex-grow: 1;
+  }
+}
+
+.header {
+  height: 2.5rem;
+  background-color: $main-color;
+  .header__container{
+    @extend %container;
+    .header__row {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.body{
+  .body__container {
+    @extend %container;
+    .body__row {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
