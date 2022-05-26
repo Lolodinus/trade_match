@@ -25,10 +25,14 @@
     font-weight: 600;
     color: $text-color;
 
+    & > * {
+      margin-top: .5rem;
+    }
+
     .form_input {
       height: 1.8rem;
-      margin-top: .5rem;
       color: $main-color;
+      padding: 0 .5rem;
 
     }
   }

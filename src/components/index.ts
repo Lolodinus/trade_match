@@ -4,5 +4,6 @@ import DraggbleElement from "./draggbleElement";
 import Header from "./header";
 import Navbar from "./navbar";
 import Button from "./button";
+import UploadImage from "./uploadImage";
 
-export { Header, Navbar, Button, List, Item, DraggbleElement };
+export { Header, Navbar, Button, List, Item, DraggbleElement, UploadImage };

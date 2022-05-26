@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 
 // Components
-import { Button } from "../../components";
+import { Button, UploadImage } from "../../components";
 
 // Styles
 import styles from "./CreateItem.module.scss";
 
 const CreateItem = () => {
+  const [imageFile, setImageFile] = useState();
   return (
     <div className={styles.create}>
       <form className={styles.form}>
@@ -28,10 +29,10 @@ const CreateItem = () => {
             required
           />
         </label>
-        <label className={styles.form_label}>
+        <div className={styles.form_label}>
           Image
-          <input type="file" accept=".jpeg,.jpg,.png" />
-        </label>
+          <UploadImage setImageFile={setImageFile} />
+        </div>
         <label className={styles.form_label}>
           Type
           <select>
@@ -45,7 +46,6 @@ const CreateItem = () => {
           typeButton={"ACSENT_BUTTON"}
           type={"submit"}
         />
-        {/* <button type="submit">Create</button> */}
       </form>
     </div>
   );
