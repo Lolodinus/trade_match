@@ -1,0 +1,16 @@
+@import "../../shared/styles/colors";
+
+.button {
+  height: 1.8rem;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  font-weight: 600;
+
+  &.acsent {
+    background-color: $acsent-color;
+    color: $text-color;
+  }
+}
