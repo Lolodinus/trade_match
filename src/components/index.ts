@@ -5,5 +5,15 @@ import Header from "./header";
 import Navbar from "./navbar";
 import Button from "./button";
 import UploadImage from "./uploadImage";
+import Select from "./select";
 
-export { Header, Navbar, Button, List, Item, DraggbleElement, UploadImage };
+export {
+  Header,
+  Navbar,
+  Button,
+  List,
+  Item,
+  DraggbleElement,
+  UploadImage,
+  Select
+};
