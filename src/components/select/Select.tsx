@@ -46,7 +46,7 @@ const Select = (props: ISelectProps) => {
     const lastSelectCursorPosition = options.length - 1;
     switch (e.key) {
       case "ArrowDown": {
-        console.log(!selectCursorPosition, selectCursorPosition);
+        e.preventDefault();
         currentSelectCursorPosition =
           currentSelectCursorPosition === lastSelectCursorPosition ||
           selectCursorPosition === undefined
@@ -56,6 +56,7 @@ const Select = (props: ISelectProps) => {
         return;
       }
       case "ArrowUp": {
+        e.preventDefault();
         currentSelectCursorPosition =
           currentSelectCursorPosition === 0
             ? lastSelectCursorPosition

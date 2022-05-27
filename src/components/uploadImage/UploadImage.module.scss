@@ -63,24 +63,44 @@
       cursor: pointer;
     }
   }
-  .uploader__button {
+  .uploader__button-wrapper {
     width: 50%;
     height: 100%;
     margin: 0 .5rem;
-    padding: .5rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    font-size: 4rem;
-    font-weight: 800;
-    color: $text-color;
-    background-color: $acsent-color;
-    cursor: pointer;
-    .uploader__button-description {
-      font-size: 1rem;
-      font-weight: 600;
+    position: relative;
+  }
+}
+
+.uploader__button {
+  width: 100%;
+  height: 100%;
+  padding: .5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: $acsent-color;
+  font-size: 4rem;
+  font-weight: 800;
+  color: $text-color;
+  .uploader__button-description {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  &:hover,
+  &:focus {
+    &::after {
+      content: "";
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      background-color: black;
+      opacity: .3;
     }
   }
-
+  &:active {
+    transform: scale(.99);
+  }
 }

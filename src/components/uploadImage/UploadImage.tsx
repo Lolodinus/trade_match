@@ -1,5 +1,8 @@
 import React, { useRef, useState } from "react";
 
+// Component
+import { Button } from "../";
+
 // Styles
 import styles from "./UploadImage.module.scss";
 import imgPreview from "./img/preview.png";
@@ -12,7 +15,7 @@ interface IUploadImageProps {
 const UploadImage = (props: IUploadImageProps) => {
   const { setImageFile } = props;
   const [preview, setPreview] = useState<string | undefined>();
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const imageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
@@ -29,6 +32,10 @@ const UploadImage = (props: IUploadImageProps) => {
     };
     reader.readAsDataURL(e.target.files[0]);
     setImageFile(e.target.files[0]);
+  };
+
+  const onClickHandler = () => {
+    inputRef.current?.click();
   };
 
   const resetPreview = () => {
@@ -71,9 +78,26 @@ const UploadImage = (props: IUploadImageProps) => {
           X
         </button>
       </div>
-      <label className={styles.uploader__button} htmlFor="uploadImage">
+      {/* <label className={styles.uploader__button} htmlFor="uploadImage">
         +<p className={styles["uploader__button-description"]}>Upload image</p>
-      </label>
+      </label> */}
+      <div className={styles["uploader__button-wrapper"]}>
+        <Button
+          typeButton={"ABSOLUTE_BUTTON"}
+          content={
+            <div className={styles.uploader__button}>
+              +
+              <p className={styles["uploader__button-description"]}>
+                Upload image
+              </p>
+            </div>
+          }
+          type="button"
+          onClick={() => {
+            onClickHandler();
+          }}
+        />
+      </div>
     </div>
   );
 };

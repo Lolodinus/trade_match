@@ -8,9 +8,35 @@
   align-items: center;
   font-size: 1rem;
   font-weight: 600;
+  cursor: pointer;
 
   &.acsent {
     background-color: $acsent-color;
     color: $text-color;
+    position: relative;
+    &:hover,
+    &:focus {
+      &::after {
+        content: "";
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        background-color: black;
+        opacity: .3;
+      }
+    }
+    &:active {
+      transform: scale(.99);
+    }
+  }
+  &.absolute {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
   }
 }

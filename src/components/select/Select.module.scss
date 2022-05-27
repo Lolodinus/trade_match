@@ -33,6 +33,7 @@
       left: 0;
       &.show {
         display: block;
+        z-index: 1;
       }
       .select__item {
         width: 100%;

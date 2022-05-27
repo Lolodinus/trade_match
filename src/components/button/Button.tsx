@@ -4,7 +4,7 @@ import React, { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
 import styles from "./Button.module.scss";
 
 // Types
-type ButtonType = "ACSENT_BUTTON" | "DEFAULT_BUTTON";
+type ButtonType = "ACSENT_BUTTON" | "DEFAULT_BUTTON" | "ABSOLUTE_BUTTON";
 interface IButtonProps
   extends DetailedHTMLProps<
     ButtonHTMLAttributes<HTMLButtonElement>,
@@ -23,6 +23,9 @@ const Button = (props: IButtonProps) => {
       }
       case "DEFAULT_BUTTON": {
         return styles.default;
+      }
+      case "ABSOLUTE_BUTTON": {
+        return styles.absolute;
       }
       default: {
         return styles.default;
