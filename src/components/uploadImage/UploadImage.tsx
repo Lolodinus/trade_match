@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { fileValidation } from "../../utils/validation";
 
 // Component
 import { Button } from "../";
@@ -8,18 +9,43 @@ import styles from "./UploadImage.module.scss";
 import imgPreview from "./img/preview.png";
 
 // Types
+type allowedExtantion = ".jpg" | ".jpeg" | ".png" | ".svg";
+
 interface IUploadImageProps {
-  setImageFile: Function;
+  imageFile: IImageFile | undefined;
+  setImageFile: React.Dispatch<React.SetStateAction<IImageFile | undefined>>;
+  option?: {
+    allowedExtantion?: allowedExtantion[];
+    maxSize?: number;
+    minSize?: number;
+  };
+}
+
+interface IImageFile {
+  file: File | undefined;
+  error?: {
+    message: string;
+  };
 }
 
 const UploadImage = (props: IUploadImageProps) => {
-  const { setImageFile } = props;
+  const { imageFile, setImageFile, option } = props;
   const [preview, setPreview] = useState<string | undefined>();
   const inputRef = useRef<HTMLInputElement | null>(null);
-
+  useEffect(() => {
+    if (!imageFile?.file) {
+      setPreview(undefined);
+    }
+  }, [imageFile]);
   const imageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
       return;
+    }
+    if (option) {
+      let error = fileValidation(e.target.files[0], { ...option });
+      if (error) {
+        return setImageFile({ file: undefined, error: { message: error } });
+      }
     }
     const reader = new FileReader();
     reader.onload = () => {
@@ -31,7 +57,10 @@ const UploadImage = (props: IUploadImageProps) => {
       }
     };
     reader.readAsDataURL(e.target.files[0]);
-    setImageFile(e.target.files[0]);
+    console.log(e.target.files[0]);
+    setImageFile({
+      file: e.target.files[0]
+    });
   };
 
   const onClickHandler = () => {
@@ -52,7 +81,11 @@ const UploadImage = (props: IUploadImageProps) => {
         className={styles.uploader__input}
         id="uploadImage"
         type="file"
-        accept=".jpeg,.jps,.png"
+        accept={
+          option?.allowedExtantion
+            ? option.allowedExtantion.join(",")
+            : ".jpeg,.jps,.png"
+        }
         onChange={imageHandler}
         ref={inputRef}
       />
@@ -78,9 +111,6 @@ const UploadImage = (props: IUploadImageProps) => {
           X
         </button>
       </div>
-      {/* <label className={styles.uploader__button} htmlFor="uploadImage">
-        +<p className={styles["uploader__button-description"]}>Upload image</p>
-      </label> */}
       <div className={styles["uploader__button-wrapper"]}>
         <Button
           typeButton={"ABSOLUTE_BUTTON"}
@@ -103,3 +133,4 @@ const UploadImage = (props: IUploadImageProps) => {
 };
 
 export default UploadImage;
+export { IImageFile };

@@ -1,0 +1,29 @@
+[33mcommit 4e6e258f053cecc6c4cd3880bf2fc861988a7ced[m[33m ([m[1;36mHEAD -> [m[1;32mdev[m[33m)[m
+Author: Leonid D <serlolodin@gmail.com>
+Date:   Fri May 27 19:30:15 2022 +0000
+
+    fix uploadImage and select component
+
+[33mcommit fffe300358432ef6a97e13cdc2109806c45e64d5[m[33m ([m[1;31morigin/dev[m[33m)[m
+Author: Leonid D <serlolodin@gmail.com>
+Date:   Fri May 27 17:23:49 2022 +0000
+
+    add select component
+
+[33mcommit 27ec3ac0ff503519ddfe9f56988050a7c38535bf[m
+Author: Leonid D <serlolodin@gmail.com>
+Date:   Thu May 26 20:25:22 2022 +0000
+
+    add upload image component
+
+[33mcommit 40c0b0f5bbade161e872d59725718b8aaf7c4e50[m
+Author: Leonid D <serlolodin@gmail.com>
+Date:   Thu May 26 14:58:56 2022 +0000
+
+    create item page and btn component
+
+[33mcommit a7bf6ff0b786f0e2d04181a39d55596825420eab[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m
+Author: Leonid D <serlolodin@gmail.com>
+Date:   Wed May 25 18:07:20 2022 +0000
+
+    initial

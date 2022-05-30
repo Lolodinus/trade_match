@@ -18,6 +18,7 @@ function App() {
         <div className={styles.header__container}>
           <div className={styles.header__row}>
             <Header />
+            {(process.env.REACT_APP_TEST, process.env.REACT_APP_TEST2)}
           </div>
         </div>
       </div>

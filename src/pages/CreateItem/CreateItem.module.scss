@@ -37,3 +37,15 @@
     }
   }
 }
+
+.error {
+  height: 1.5rem;
+  padding: .5rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: .8rem;
+  font-weight: 500;
+  color: $text-color;
+  background-color: $acsent-color;
+}

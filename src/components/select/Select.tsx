@@ -7,16 +7,26 @@ import styles from "./Select.module.scss";
 // Types
 import IOption from "../../interface/select";
 
+interface ISelectedOption {
+  option: IOption | undefined;
+  error?: {
+    message: string;
+  };
+}
+
 interface ISelectProps {
   options: IOption[];
   placeHolder?: string;
-  setOption: Function;
+  setSelectedOption: React.Dispatch<
+    React.SetStateAction<ISelectedOption | undefined>
+  >;
+  selectedOption: ISelectedOption | undefined;
 }
 
 const Select = (props: ISelectProps) => {
-  const { options, placeHolder, setOption } = props;
+  const { options, placeHolder, setSelectedOption, selectedOption } = props;
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<IOption>();
+  // const [selectedOption, setSelectedOption] = useState<IOption>();
   const [selectCursorPosition, setSelectCursorPosition] = useState<
     number | undefined
   >();
@@ -25,9 +35,11 @@ const Select = (props: ISelectProps) => {
   useClickOutside(selectRef, () => {
     setIsOpen(false);
   });
-  // useEffect(() => {
-  //   setOption(selectedOption);
-  // }, [selectedOption]);
+  useEffect(() => {
+    if (!selectedOption?.option) {
+      setSelectedOption(undefined);
+    }
+  }, [selectedOption]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -70,7 +82,7 @@ const Select = (props: ISelectProps) => {
       }
       case "Enter": {
         e.preventDefault();
-        setSelectedOption(options[currentSelectCursorPosition]);
+        setSelectedOption({ option: options[currentSelectCursorPosition] });
         return;
       }
       default: {
@@ -86,15 +98,15 @@ const Select = (props: ISelectProps) => {
   const handleSelectedOptions = (e: React.MouseEvent, option: IOption) => {
     e.preventDefault();
     selectButtonRef.current?.focus();
-    if (!selectedOption || selectedOption.id !== option.id) {
-      setSelectedOption(option);
+    if (!selectedOption?.option || selectedOption.option.id !== option.id) {
+      setSelectedOption({ option });
     }
   };
 
   const getOptions = (options: IOption[]) => {
     return options.map((option, index) => {
       const itemStyles = `${styles.select__item}${
-        selectedOption?.id === option.id ? " " + styles.selected : ""
+        selectedOption?.option?.id === option.id ? " " + styles.selected : ""
       }${selectCursorPosition === index ? " " + styles.cursor : ""}`;
       return (
         <li
@@ -124,7 +136,7 @@ const Select = (props: ISelectProps) => {
           ref={selectButtonRef}
         >
           {selectedOption
-            ? selectedOption.value
+            ? selectedOption.option?.value
             : placeHolder || "Select options"}
         </button>
         <ul
@@ -142,3 +154,4 @@ const Select = (props: ISelectProps) => {
 };
 
 export default Select;
+export { ISelectedOption };
