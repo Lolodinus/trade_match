@@ -45,14 +45,7 @@ const CreateItem = () => {
     ISelectedOption | undefined
   >();
   const formRef = useRef<HTMLFormElement | null>(null);
-  useEffect(() => {
-    if (types) return;
-    fetchTypeOption()
-      .then((types) => {
-        setTypes(types);
-      })
-      .catch((error) => console.log(error));
-  });
+
   const onSubmit = async (data: any) => {
     if (!imageFile?.file) {
       return setImageFile({
@@ -85,6 +78,14 @@ const CreateItem = () => {
     const data = await firestoreDb.getDocs("type");
     return transformDataToType(data);
   };
+  useEffect(() => {
+    if (types) return;
+    fetchTypeOption()
+      .then((types) => {
+        setTypes(types);
+      })
+      .catch((error) => console.log(error));
+  });
   return (
     <div className={styles.create}>
       <form

@@ -5,7 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import { Header } from "../";
 
 // Page
-import { Main, NotFound, CreateItem } from "../../pages";
+import { Main, NotFound, CreateItem, ItemList } from "../../pages";
 
 // Styles
 import styles from "./App.module.scss";
@@ -29,6 +29,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Main />} />
               <Route path="/create" element={<CreateItem />} />
+              <Route path="/list" element={<ItemList />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>
