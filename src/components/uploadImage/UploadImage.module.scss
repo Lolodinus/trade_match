@@ -1,0 +1,106 @@
+@import "../../shared/styles/colors.scss";
+
+.uploader {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  height: 300px;
+  margin: 0 -.5rem;
+  .uploader__input {
+    display: none;
+  }
+  .uploader__preview {
+    width: 50%;
+    margin: 0 .5rem;
+    border: .2rem dashed $text-color;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover,
+    &:focus {
+      .uploader__preview-btn {
+        display: block;
+        z-index: 2;
+      }
+      &::after {
+        content: "";
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        background-color: $dark-main-color;
+        opacity: .7;
+      }
+    }
+
+    .uploader__preview-img {
+      height: 100%;
+      width: 100%;
+      display: block;
+      object-fit: contain;
+      &.default {
+        height: 50%;
+        width: 50%;
+        object-fit: contain;
+      }
+    }
+    .uploader__preview-btn {
+      display: none;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: auto;
+      border: none;
+      padding: .5rem;
+      background-color: $acsent-color;
+      font-size: 1rem;
+      font-weight: 600;
+      color: $text-color;
+      cursor: pointer;
+    }
+  }
+  .uploader__button-wrapper {
+    width: 50%;
+    height: 100%;
+    margin: 0 .5rem;
+    position: relative;
+  }
+}
+
+.uploader__button {
+  width: 100%;
+  height: 100%;
+  padding: .5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: $acsent-color;
+  font-size: 4rem;
+  font-weight: 800;
+  color: $text-color;
+  .uploader__button-description {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  &:hover,
+  &:focus {
+    &::after {
+      content: "";
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      background-color: black;
+      opacity: .3;
+    }
+  }
+  &:active {
+    transform: scale(.99);
+  }
+}

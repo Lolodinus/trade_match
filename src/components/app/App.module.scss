@@ -13,6 +13,8 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  background-color: $dark-main-color;
+  overflow-y: scroll;
   .app__header {
     width: 100%;
   }

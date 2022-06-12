@@ -3,5 +3,17 @@ import Item from "./item";
 import DraggbleElement from "./draggbleElement";
 import Header from "./header";
 import Navbar from "./navbar";
+import Button from "./button";
+import UploadImage from "./uploadImage";
+import Select from "./select";
 
-export { Header, Navbar, List, Item, DraggbleElement };
+export {
+  Header,
+  Navbar,
+  Button,
+  List,
+  Item,
+  DraggbleElement,
+  UploadImage,
+  Select
+};
