@@ -1,8 +1,14 @@
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject
+} from "firebase/storage";
 import { app } from "../../config/firebase";
 
 // Types
-import { FirebaseStorage } from "firebase/storage";
+import { FirebaseStorage, StorageReference } from "firebase/storage";
 type path = "item/" | "trader/";
 const storage = getStorage(app);
 
@@ -11,19 +17,21 @@ class FBStorage {
   constructor(storage: FirebaseStorage) {
     this.storage = storage;
   }
-  uploadFile = async (
-    file: File,
-    filePath: path,
-    fileName: string,
-    extention: string
-  ) => {
+  getFileRef = (fullFilePath: string) => {
+    return ref(this.storage, fullFilePath);
+  };
+  getFileRefByUrl = (url: string) => {
+    return ref(this.storage, url);
+  };
+  getFileUrl = async (fileRef: StorageReference) => {
+    return await getDownloadURL(fileRef);
+  };
+  uploadFile = async (file: File, fileRef: StorageReference) => {
+    await uploadBytes(fileRef, file);
+  };
+  deleteFile = async (fileRef: StorageReference) => {
     try {
-      const storageRef = ref(
-        this.storage,
-        `${filePath}${fileName}${extention}`
-      );
-      const uploadfile = await uploadBytes(storageRef, file);
-      return getDownloadURL(uploadfile.ref);
+      deleteObject(fileRef);
     } catch (error) {
       console.log(error);
     }

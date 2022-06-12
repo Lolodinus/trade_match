@@ -22,6 +22,26 @@
       &:focus {
         background-color: $text-color;
         color: $main-color;
+        &::after {
+          border-color: $main-color transparent transparent transparent;
+        }
+      }
+      
+      &::after {
+        content: "";
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: .8rem .4rem 0 .4rem;
+        border-color: $text-color transparent transparent transparent;
+        margin-left: auto;
+        animation: rotate-arrow-down 250ms forwards;
+      }
+
+      &.open {
+        &::after {
+          animation: rotate-arrow-up 250ms forwards;
+        }
       }
     }
     .select__list {
@@ -62,5 +82,24 @@
         }
       }
     }
+  }
+}
+
+// select arrow animation
+@keyframes rotate-arrow-up {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(0.5turn);
+  }
+}
+
+@keyframes rotate-arrow-down {
+  0% {
+    transform: rotate(0.5turn);
+  }
+  100% {
+    transform: rotate(0turn);
   }
 }

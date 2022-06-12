@@ -3,13 +3,15 @@ import {
   collection,
   doc,
   addDoc,
+  getDoc,
   getDocs,
-  updateDoc
+  updateDoc,
+  deleteField
 } from "firebase/firestore";
 import { app } from "../../config/firebase";
 
 // Types
-import { Firestore } from "firebase/firestore";
+import { Firestore, DocumentReference, DocumentData } from "firebase/firestore";
 
 const db = getFirestore(app);
 
@@ -21,15 +23,29 @@ class FirestoreDB {
   addDoc = async (tableDb: string, docData: any) => {
     try {
       const docRef = await addDoc(collection(this.db, tableDb), docData);
-      return docRef.id;
+      return docRef;
     } catch (e) {
       console.error("Error adding document: ", e);
     }
   };
-  updateDoc = async (docId: string, updareData: any) => {
+  updateDoc = async (
+    docRef: DocumentReference<DocumentData>,
+    updateData: any
+  ) => {
+    console.log(updateData);
+    updateDoc(docRef, updateData);
+  };
+  getDocRef = (fullFilePath: string) => {
+    return doc(this.db, fullFilePath);
+  };
+  getDocById = async (docPath: string, docId: string) => {
     try {
-      const docRef = doc(this.db, docId);
-      await updateDoc(docRef, updareData);
+      const docRef = doc(this.db, `${docPath}${docId}`);
+      const docSnap = await getDoc(docRef);
+      return {
+        id: docSnap.id,
+        ...docSnap.data()
+      };
     } catch (error) {
       console.error("Error update document: ", error);
     }
@@ -44,6 +60,14 @@ class FirestoreDB {
       });
     }
     return docs;
+  };
+  deleteDocField = async (
+    docRef: DocumentReference<DocumentData>,
+    field: string
+  ) => {
+    updateDoc(docRef, {
+      [field]: deleteField()
+    });
   };
 }
 

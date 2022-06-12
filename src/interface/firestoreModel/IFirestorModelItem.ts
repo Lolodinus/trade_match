@@ -2,10 +2,7 @@ interface IFirestorModelItem {
   title: string;
   price: number;
   imgUrl?: string;
-  type: {
-    id: string;
-    value: string;
-  };
+  type: string;
   child?: IFirestorModelItem;
   parent?: IFirestorModelItem;
 }
@@ -14,10 +11,7 @@ interface IFirestorUpdateModelItem {
   title?: string;
   price?: number;
   imgUrl?: string;
-  type?: {
-    id: string;
-    value: string;
-  };
+  type?: string;
   child?: IFirestorModelItem;
   parent?: IFirestorModelItem;
 }

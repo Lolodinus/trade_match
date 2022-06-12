@@ -20,7 +20,7 @@ function transformDataToType(data: any[]): IType[] {
 function transformDataToItem(data: any[]): IItem[] {
   const items: IItem[] = [];
   for (let item of data) {
-    if (isItem(item, ["id", "title", "price", "imgUrl", "type"])) {
+    if (isItem(item, ["id", "title", "price", "type"])) {
       const transformItem: IItem = {
         id: item.id,
         title: item.title,

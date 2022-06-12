@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { firestoreDb } from "../../services/firebase";
 import { transformDataToItem } from "../../services/firebase/transformData";
 
@@ -17,15 +18,23 @@ interface propsTradeItem {
 
 const TradeItem = (props: propsTradeItem) => {
   const { item } = props;
+  let navigate = useNavigate();
   return (
     <div className={styles.item}>
       <div className={styles.item__title}>{item.title}</div>
       <div className={styles.item__img}>
-        {item && <img src={item.imgUrl} alt={item.title} />}
+        {item.imgUrl && <img src={item.imgUrl} alt={item.title} />}
       </div>
       <div className={styles.item__price}>{item.price}</div>
       <div className={styles.item__action}>
-        <button className={styles["item__action-btn"]}>{">>"}</button>
+        <button
+          className={styles["item__action-btn"]}
+          onClick={() => {
+            navigate(`${item.id}`, { state: { ...item } });
+          }}
+        >
+          {">>"}
+        </button>
       </div>
     </div>
   );
@@ -50,7 +59,9 @@ const ItemList = () => {
       {items && (
         <List
           items={items}
-          renderItem={(item) => <Item content={<TradeItem item={item} />} />}
+          renderItem={(item) => (
+            <Item content={<TradeItem item={item} />} key={item.id} />
+          )}
         />
       )}
     </div>

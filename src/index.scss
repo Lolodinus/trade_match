@@ -11,6 +11,11 @@ html, body, #root {
   min-height: 100vh;
 }
 
+button {
+  border: none;
+  background-color: transparent;
+}
+
 ul {
   list-style: none;
 }

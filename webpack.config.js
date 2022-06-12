@@ -1,14 +1,15 @@
-const prod = process.env.NODE_ENV === "production";
-
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const webpack = require("webpack");
+require('dotenv').config()
+const prod = process.env.NODE_ENV === "production";
 
 module.exports = {
   mode: prod ? "production" : "development",
   entry: "./src/index.tsx",
   output: {
-    path: __dirname + "/dist/"
+    path: __dirname + "/dist/",
+    publicPath: "/"
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".css", ".scss"]
@@ -35,6 +36,7 @@ module.exports = {
   },
   devServer: {
     port: process.env.PORT || 3000,
+    hot: true,
     historyApiFallback: true
   },
   devtool: prod ? undefined : "source-map",

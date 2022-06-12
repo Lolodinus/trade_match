@@ -5,7 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import { Header } from "../";
 
 // Page
-import { Main, NotFound, CreateItem, ItemList } from "../../pages";
+import { Main, NotFound, CreateItem, ItemList, ItemDetail } from "../../pages";
 
 // Styles
 import styles from "./App.module.scss";
@@ -28,8 +28,9 @@ function App() {
           <div className={styles.body__row}>
             <Routes>
               <Route path="/" element={<Main />} />
-              <Route path="/create" element={<CreateItem />} />
-              <Route path="/list" element={<ItemList />} />
+              <Route path="create" element={<CreateItem />} />
+              <Route path="list" element={<ItemList />} />
+              <Route path="list/:id" element={<ItemDetail />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>

@@ -2,10 +2,7 @@ interface IItemBase {
   title: string;
   price: number;
   imgUrl?: string;
-  type: {
-    id: string;
-    value: string;
-  };
+  type: string;
 }
 
 interface IItem extends IItemBase {

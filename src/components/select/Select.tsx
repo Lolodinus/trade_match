@@ -5,55 +5,49 @@ import useClickOutside from "../../hooks/useClickOutside";
 import styles from "./Select.module.scss";
 
 // Types
-import IOption from "../../interface/select";
-
-interface ISelectedOption {
-  option: IOption | undefined;
-  error?: {
-    message: string;
+interface ISelectProps {
+  name?: string;
+  options: string[];
+  placeHolder?: string;
+  setSelectedOption: (value: string | undefined) => void;
+  selectedOption: string | undefined;
+  setError: (message: string) => void;
+  clearErrors: () => void;
+  option?: {
+    required?: boolean;
   };
 }
 
-interface ISelectProps {
-  options: IOption[];
-  placeHolder?: string;
-  setSelectedOption: React.Dispatch<
-    React.SetStateAction<ISelectedOption | undefined>
-  >;
-  selectedOption: ISelectedOption | undefined;
-}
-
 const Select = (props: ISelectProps) => {
-  const { options, placeHolder, setSelectedOption, selectedOption } = props;
+  const {
+    options,
+    name,
+    placeHolder,
+    setSelectedOption,
+    selectedOption,
+    setError,
+    clearErrors,
+    option
+  } = props;
   const [isOpen, setIsOpen] = useState(false);
-  // const [selectedOption, setSelectedOption] = useState<IOption>();
-  const [selectCursorPosition, setSelectCursorPosition] = useState<
+  const [optionCursorPosition, setOptionCursorPosition] = useState<
     number | undefined
   >();
   const selectRef = useRef<HTMLDivElement | null>(null);
   const selectButtonRef = useRef<HTMLButtonElement | null>(null);
-  useClickOutside(selectRef, () => {
-    setIsOpen(false);
-  });
-  useEffect(() => {
-    if (!selectedOption?.option) {
-      setSelectedOption(undefined);
-    }
-  }, [selectedOption]);
 
-  useEffect(() => {
-    if (!isOpen) {
-      setSelectCursorPosition(undefined);
-    }
-  }, [isOpen]);
+  // Select handler
+  const onClickSelectHandler = () => {
+    setIsOpen(!isOpen);
+  };
 
-  const selectKeyDownHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const keyDownSelectHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (!isOpen) {
       return;
     }
     selectButtonRef.current?.focus();
-    let currentSelectCursorPosition = selectCursorPosition
-      ? selectCursorPosition
+    let currentSelectCursorPosition = optionCursorPosition
+      ? optionCursorPosition
       : 0;
     const lastSelectCursorPosition = options.length - 1;
     switch (e.key) {
@@ -61,10 +55,10 @@ const Select = (props: ISelectProps) => {
         e.preventDefault();
         currentSelectCursorPosition =
           currentSelectCursorPosition === lastSelectCursorPosition ||
-          selectCursorPosition === undefined
+          optionCursorPosition === undefined
             ? 0
             : currentSelectCursorPosition + 1;
-        setSelectCursorPosition(currentSelectCursorPosition);
+        setOptionCursorPosition(currentSelectCursorPosition);
         return;
       }
       case "ArrowUp": {
@@ -73,7 +67,7 @@ const Select = (props: ISelectProps) => {
           currentSelectCursorPosition === 0
             ? lastSelectCursorPosition
             : currentSelectCursorPosition - 1;
-        setSelectCursorPosition(currentSelectCursorPosition);
+        setOptionCursorPosition(currentSelectCursorPosition);
         return;
       }
       case "Escape": {
@@ -82,7 +76,7 @@ const Select = (props: ISelectProps) => {
       }
       case "Enter": {
         e.preventDefault();
-        setSelectedOption({ option: options[currentSelectCursorPosition] });
+        setSelectedOption(options[currentSelectCursorPosition]);
         return;
       }
       default: {
@@ -91,32 +85,49 @@ const Select = (props: ISelectProps) => {
     }
   };
 
-  const handleSelect = () => {
-    setIsOpen(!isOpen);
+  const onBlurSelectHandler = () => {
+    if (isOpen) return;
+    if (option?.required && !selectedOption) setError("Field Required");
   };
 
-  const handleSelectedOptions = (e: React.MouseEvent, option: IOption) => {
+  useClickOutside(selectRef, () => {
+    setIsOpen(false);
+  });
+
+  // Option handler
+  const onClickOptionHandler = (e: React.MouseEvent, option: string) => {
     e.preventDefault();
     selectButtonRef.current?.focus();
-    if (!selectedOption?.option || selectedOption.option.id !== option.id) {
-      setSelectedOption({ option });
+    if (!selectedOption || selectedOption !== option) {
+      setSelectedOption(option);
     }
   };
 
-  const getOptions = (options: IOption[]) => {
+  // reset options cursor
+  useEffect(() => {
+    if (isOpen) return;
+    setOptionCursorPosition(undefined);
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!options) return;
+    if (selectedOption) clearErrors();
+  }, [selectedOption]);
+
+  const getOptions = (options: string[]) => {
     return options.map((option, index) => {
       const itemStyles = `${styles.select__item}${
-        selectedOption?.option?.id === option.id ? " " + styles.selected : ""
-      }${selectCursorPosition === index ? " " + styles.cursor : ""}`;
+        selectedOption === option ? " " + styles.selected : ""
+      }${optionCursorPosition === index ? " " + styles.cursor : ""}`;
       return (
         <li
           className={itemStyles}
           key={index}
-          onClick={(e) => handleSelectedOptions(e, option)}
-          onMouseEnter={() => setSelectCursorPosition(index)}
-          onMouseLeave={() => setSelectCursorPosition(undefined)}
+          onClick={(e) => onClickOptionHandler(e, option)}
+          onMouseEnter={() => setOptionCursorPosition(index)}
+          onMouseLeave={() => setOptionCursorPosition(undefined)}
         >
-          {option.value}
+          {option}
         </li>
       );
     });
@@ -125,19 +136,21 @@ const Select = (props: ISelectProps) => {
   return (
     <div
       className={styles.select}
-      onKeyDown={selectKeyDownHandler}
+      onKeyDown={keyDownSelectHandler}
       ref={selectRef}
+      onBlur={onBlurSelectHandler}
     >
+      <select style={{ display: "none" }} name={name}></select>
       <div className={styles.select__wrapper}>
         <button
-          className={styles.select__button}
+          className={`${styles.select__button}${
+            isOpen ? " " + styles.open : ""
+          }`}
           type="button"
-          onClick={handleSelect}
+          onClick={onClickSelectHandler}
           ref={selectButtonRef}
         >
-          {selectedOption
-            ? selectedOption.option?.value
-            : placeHolder || "Select options"}
+          {selectedOption ? selectedOption : placeHolder || "Select options"}
         </button>
         <ul
           className={
@@ -154,4 +167,3 @@ const Select = (props: ISelectProps) => {
 };
 
 export default Select;
-export { ISelectedOption };

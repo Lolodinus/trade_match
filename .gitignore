@@ -4,3 +4,5 @@
 sandbox.config.json
 /codesandbox
 .codesandbox
+
+.env
