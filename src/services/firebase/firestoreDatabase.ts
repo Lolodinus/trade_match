@@ -6,6 +6,7 @@ import {
   getDoc,
   getDocs,
   updateDoc,
+  deleteDoc,
   deleteField
 } from "firebase/firestore";
 import { app } from "../../config/firebase";
@@ -32,7 +33,6 @@ class FirestoreDB {
     docRef: DocumentReference<DocumentData>,
     updateData: any
   ) => {
-    console.log(updateData);
     updateDoc(docRef, updateData);
   };
   getDocRef = (fullFilePath: string) => {
@@ -69,6 +69,9 @@ class FirestoreDB {
       [field]: deleteField()
     });
   };
+  deleteDoc = (docRef: DocumentReference<DocumentData>) => {
+    deleteDoc(docRef);
+  }
 }
 
 const firestoreDb = new FirestoreDB(db);

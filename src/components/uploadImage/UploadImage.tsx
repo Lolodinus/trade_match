@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { fileValidation } from "../../utils/validation";
 
 // Components
-import {Button} from "../";
+import { Button } from "../";
 
 // Styles
 import styles from "./UploadImage.module.scss";
@@ -35,15 +35,16 @@ const UploadImage = (props: IUploadImageProps) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const uploadBtnRef = useRef<HTMLButtonElement | null>(null);
 
+  // reset preview
+  useEffect(() => {
+    if (!imageFile) setPreview(undefined);
+  }, [imageFile])
+
   // set exist image for preview
   useEffect(() => {
     if (!existImage) return;
     setItemImage(existImage);
   }, [existImage]);
-
-  useEffect(()=> {
-    console.log(itemImage, preview);
-  }, [itemImage, preview])
 
   const onChangeImageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -108,67 +109,50 @@ const UploadImage = (props: IUploadImageProps) => {
           />
         )}
         <div className={styles["uploader__preview-action"]}>
-          { preview && <button
-            className={styles["uploader__preview-btn"]}
-            type="button"
-            onClick={resetPreview}
-          >
-            <i className="fa-solid fa-xmark" />
-          </button>
+          { preview && <Button 
+              content={<i className="fa-solid fa-xmark" />} 
+              typeButton="ACSENT_SMALL_BUTTON"
+              type="button"
+              onClick={resetPreview}
+            />
           }
           {(itemImage && !preview) && (
-            <button
-              className={styles["uploader__preview-btn"]}
+            <Button 
+              content={<i className="fa-solid fa-trash-can" />} 
+              typeButton="ACSENT_SMALL_BUTTON"
               type="button"
               onClick={deleteImageFile}
-            >
-              <i className="fa-solid fa-trash-can"></i>
-            </button>
+            />
           )}
         </div>
       </div>
       <div className={styles["uploader__button-wrapper"]}>
-        <label htmlFor="uploadImage">
-          <input
-            className={styles.uploader__input}
-            id="uploadImage"
-            type="file"
-            accept={
-              option?.allowedExtantion
-                ? option.allowedExtantion.join(",")
-                : ".jpeg,.jps,.png,.svg"
-            }
-            onChange={onChangeImageHandler}
-            ref={inputRef}
-            name={name}
-          />
-          {/* <button 
-            className={styles.uploader__button}
-            type="button"
-            ref={uploadBtnRef}
-            onClick={() => {inputRef.current?.click()}}
-          >
-            +
-            <p className={styles["uploader__button-description"]}>
-              Upload image
-            </p>
-          </button> */}
-          <Button 
-            content={
-              <>
-                <span className={styles["uploader__button-icon"]}>+</span>
-                <p className={styles["uploader__button-description"]}>
-                  Upload image
-                </p>
-              </>
-            }
-            typeButton={"ACSENT_CONTENT_BUTTON"}
-            onClick={() => {inputRef.current?.click()}}
-            ref={uploadBtnRef}
-            type="button"
-          />
-
-        </label>
+        <input
+          className={styles.uploader__input}
+          id="uploadImage"
+          type="file"
+          accept={
+            option?.allowedExtantion
+              ? option.allowedExtantion.join(",")
+              : ".jpeg,.jps,.png,.svg"
+          }
+          onChange={onChangeImageHandler}
+          ref={inputRef}
+          name={name}
+        />
+        <Button 
+          content={
+            <div>
+              <span className={styles["uploader__button-icon"]}>+</span>
+              <p className={styles["uploader__button-description"]}>
+                Upload image
+              </p>
+            </div>
+          }
+          typeButton={"ACSENT_CONTENT_BUTTON"}
+          onClick={() => {inputRef.current?.click()}}
+          type="button"
+        />
       </div>
     </div>
   );

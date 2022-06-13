@@ -4,7 +4,7 @@ import React, { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
 import styles from "./Button.module.scss";
 
 // Types
-type ButtonType = "ACSENT_BUTTON" | "ACSENT_CONTENT_BUTTON" | "DEFAULT_BUTTON" | "ABSOLUTE_BUTTON";
+type ButtonType = "ACSENT_BUTTON" | "ACSENT_CONTENT_BUTTON"| "ACSENT_SMALL_BUTTON" | "DEFAULT_BUTTON" | "ABSOLUTE_BUTTON";
 interface IButtonProps
   extends DetailedHTMLProps<
     ButtonHTMLAttributes<HTMLButtonElement>,
@@ -29,6 +29,9 @@ const Button = (props: IButtonProps) => {
       }
       case "ACSENT_CONTENT_BUTTON": {
         return `${styles.acsent} ${styles.content}`;
+      }
+      case "ACSENT_SMALL_BUTTON": {
+        return `${styles.acsent} ${styles.small}`;
       }
       default: {
         return styles.default;

@@ -45,6 +45,19 @@ class TradeMatchItem {
     const itemRef = firestoreDb.getDocRef(fullItemPath);
     firestoreDb.deleteDocField(itemRef, fieldName);
   };
+  deleteItem = (itemId: string, imgUrl?: string | undefined) => {
+    try {
+      const fullItemPath = `${this.itemPath}${itemId}`;
+      const itemRef = firestoreDb.getDocRef(fullItemPath);
+      firestoreDb.deleteDoc(itemRef);
+      if (imgUrl) {
+        const imgRef = firebaseStorage.getFileRefByUrl(imgUrl);
+        if(imgRef) firebaseStorage.deleteFile(imgRef);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   // item image
   uploadImage = async (imageFile: File, imgName: string) => {
