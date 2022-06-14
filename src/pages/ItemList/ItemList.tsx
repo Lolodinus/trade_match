@@ -12,14 +12,16 @@ import styles from "./ItemList.module.scss";
 
 // Types
 import { IItem } from "../../interface/tradeMatch";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { fetchItems, itemDelete } from "../../store/reducers/ActionCreators";
 
 interface propsTradeItem {
   item: IItem;
-  deleteItem: (id: string, imgUrl: string | undefined) => void;
 }
 
 const TradeItem = (props: propsTradeItem) => {
-  const { item, deleteItem } = props;
+  const { item } = props;
+  const dispatch = useAppDispatch();
   let navigate = useNavigate();
 
   return (
@@ -40,7 +42,7 @@ const TradeItem = (props: propsTradeItem) => {
         <Button 
           content={<i className="fa-solid fa-trash-can"></i>}
           typeButton="ACSENT_SMALL_BUTTON"
-          onClick={ () => deleteItem(item.id, item.imgUrl) }
+          onClick={ () => dispatch(itemDelete(item)) }
         />
       </div>
     </div>
@@ -48,36 +50,19 @@ const TradeItem = (props: propsTradeItem) => {
 };
 
 const ItemList = () => {
-  const [items, setItems] = useState<IItem[] | undefined>();
-  const tradeMatch = new TradeMatch("item/");
-  const fetchItem = async () => {
-    const data = await firestoreDb.getDocs("item");
-    return transformDataToItem(data);
-  };
+  const { items } = useAppSelector(state => state.itemReducer);
+  const dispatch = useAppDispatch();
   useEffect(() => {
-    if (items) return;
-    fetchItem()
-      .then((items) => {
-        setItems(items);
-      })
-      .catch((error) => console.log(error));
-  }, []);
-  const deleteItem = (itemId: string, itemImageUrl: string | undefined) => {
-    const itemIndex = items?.findIndex(item => item.id === itemId);
-    if (!items || itemIndex === undefined || itemIndex < 0) return;
-    setItems([
-      ...items.slice(0, itemIndex),
-      ...items.slice(itemIndex + 1, items.length),
-    ]) 
-    tradeMatch.deleteItem(itemId, itemImageUrl);
-  }
+    dispatch(fetchItems());
+  }, [])
+  
   return (
     <div>
       {items && (
         <List
           items={items}
           renderItem={(item) => (
-            <Item content={<TradeItem deleteItem={deleteItem} item={item} />} key={item.id} />
+            <Item content={<TradeItem item={item} />} key={item.id} />
           )}
         />
       )}

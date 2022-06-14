@@ -42,12 +42,16 @@ class FirestoreDB {
     try {
       const docRef = doc(this.db, `${docPath}${docId}`);
       const docSnap = await getDoc(docRef);
-      return {
-        id: docSnap.id,
-        ...docSnap.data()
-      };
+      if (docSnap.exists()) {
+        return {
+          id: docSnap.id,
+          ...docSnap.data()
+        };
+      } else {
+        throw new Error(`Doc with id ${docId} not found: `)
+      }
     } catch (error) {
-      console.error("Error update document: ", error);
+      console.log(error);
     }
   };
   getDocs = async (tableDb: string) => {

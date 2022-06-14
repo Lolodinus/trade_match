@@ -12,9 +12,14 @@ class TradeMatchItem {
   }
 
   getItemById = async (itemId: string) => {
-    const doc = await firestoreDb.getDocById(this.itemPath, itemId);
-    const item = transformDataToItem([doc]);
-    return item[0];
+    try {
+      const doc = await firestoreDb.getDocById(this.itemPath, itemId);
+      if (!doc) return;
+      const item = transformDataToItem([doc]);
+      return item[0]; 
+    } catch (error) {
+      console.log(error);
+    }
   };
   createItem = async <T, K extends { imgUrl?: string }>(
     item: T,
