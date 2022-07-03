@@ -1,2 +1,7 @@
 import { IItemBase, IItem } from "./item";
-export { IItemBase, IItem };
+import { IUser } from "./user";
+export { 
+    IItemBase, 
+    IItem,
+    IUser
+};

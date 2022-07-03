@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "@hookform/resolvers": "^2.9.3",
     "@reduxjs/toolkit": "^1.8.2",
     "browser": "0.2.6",
     "dotenv": "^16.0.1",
@@ -16,7 +17,8 @@
     "react-router-dom": "6.3.0",
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.1",
-    "uuid": "8.3.2"
+    "uuid": "8.3.2",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "webpack serve",

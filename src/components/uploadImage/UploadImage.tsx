@@ -29,133 +29,135 @@ interface IUploadImageProps {
 }
 
 const UploadImage = (props: IUploadImageProps) => {
-  const { name, imageFile, setImageFile, setError, option, existImage } = props;
-  const [itemImage, setItemImage] = useState<string | undefined>();
-  const [preview, setPreview] = useState<string | undefined>();
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const uploadBtnRef = useRef<HTMLButtonElement | null>(null);
+	const { name, imageFile, setImageFile, setError, option, existImage } = props;
+	const [itemImage, setItemImage] = useState<string | undefined>();
+	const [preview, setPreview] = useState<string | undefined>();
+	const inputRef = useRef<HTMLInputElement | null>(null);
+	const uploadBtnRef = useRef<HTMLButtonElement | null>(null);
 
-  // reset preview
-  useEffect(() => {
-    if (!imageFile) setPreview(undefined);
-  }, [imageFile])
+	// reset preview
+	useEffect(() => {
+		if (!imageFile) setPreview(undefined);
+	}, [imageFile])
 
-  // set exist image for preview
-  useEffect(() => {
-    if (!existImage) return;
-    setItemImage(existImage);
-  }, [existImage]);
+	// set exist image for preview
+	useEffect(() => {
+		if (!existImage) return;
+		setItemImage(existImage);
+	}, [existImage]);
 
-  const onChangeImageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return;
-    const imageFile = e.target.files[0];
-    if (!imageValid(imageFile, option)) return;
-    setImagePreview(imageFile);
-    setImageFile({ file: imageFile, update: true });
-  };
+	const onChangeImageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (!e.target.files) return;
+		const imageFile = e.target.files[0];
+		if (!imageValid(imageFile, option)) return;
+		setImagePreview(imageFile);
+		setImageFile({ file: imageFile, update: true });
+	};
 
-  const imageValid = (
-    file: File,
-    option: IValidationOption | undefined
-  ): boolean => {
-    if (!option) return true;
-    const error = fileValidation(file, { ...option });
-    if (!error) return true;
-    setError(error);
-    uploadBtnRef.current?.focus();
-    return false;
-  };
+	const imageValid = (
+		file: File,
+		option: IValidationOption | undefined
+	): boolean => {
+		if (!option) return true;
+		const error = fileValidation(file, { ...option });
+		if (!error) return true;
+		setError(error);
+		uploadBtnRef.current?.focus();
+		return false;
+	};
 
-  const setImagePreview = (file: File) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (reader.readyState === 2) {
-        if (reader.result instanceof ArrayBuffer || !reader.result) {
-          return;
-        }
-        setPreview(reader.result);
-      }
-    };
-    reader.readAsDataURL(file);
-  }
+	const setImagePreview = (file: File) => {
+		const reader = new FileReader();
+		reader.onload = () => {
+		if (reader.readyState === 2) {
+			if (reader.result instanceof ArrayBuffer || !reader.result) {
+			return;
+			}
+			setPreview(reader.result);
+		}
+		};
+		reader.readAsDataURL(file);
+	}
 
-  // image action
-  const resetPreview = () => {
-    if (inputRef instanceof HTMLInputElement) {
-      inputRef.value = "";
-    }
-    setPreview(undefined);
-    setImageFile(undefined);
-  };
-  const deleteImageFile = () => {
-    setItemImage(undefined);
-    setImageFile({ file: undefined, update: true });
-  };
+	// image action
+	const resetPreview = () => {
+		if (inputRef instanceof HTMLInputElement) inputRef.value = "";
+		setPreview(undefined);
+		setImageFile(undefined);
+	};
+	const deleteImageFile = () => {
+		setItemImage(undefined);
+		setImageFile({ file: undefined, update: true });
+	};
 
-  return (
-    <div className={styles.uploader}>
-      <div className={styles.uploader__preview}>
-        {preview || itemImage ? (
-          <img
-            className={styles["uploader__preview-img"]}
-            src={preview || itemImage}
-            alt="preview"
-          />
-        ) : (
-          <img
-            className={`${styles["uploader__preview-img"]} ${styles.default}`}
-            src={imgPreview}
-            alt="preview default"
-          />
-        )}
-        <div className={styles["uploader__preview-action"]}>
-          { preview && <Button 
-              content={<i className="fa-solid fa-xmark" />} 
-              typeButton="ACSENT_SMALL_BUTTON"
-              type="button"
-              onClick={resetPreview}
-            />
-          }
-          {(itemImage && !preview) && (
-            <Button 
-              content={<i className="fa-solid fa-trash-can" />} 
-              typeButton="ACSENT_SMALL_BUTTON"
-              type="button"
-              onClick={deleteImageFile}
-            />
-          )}
-        </div>
-      </div>
-      <div className={styles["uploader__button-wrapper"]}>
-        <input
-          className={styles.uploader__input}
-          id="uploadImage"
-          type="file"
-          accept={
-            option?.allowedExtantion
-              ? option.allowedExtantion.join(",")
-              : ".jpeg,.jps,.png,.svg"
-          }
-          onChange={onChangeImageHandler}
-          ref={inputRef}
-          name={name}
-        />
-        <Button 
-          content={
-            <div>
-              <span className={styles["uploader__button-icon"]}>+</span>
-              <p className={styles["uploader__button-description"]}>
-                Upload image
-              </p>
-            </div>
-          }
-          typeButton={"ACSENT_CONTENT_BUTTON"}
-          onClick={() => {inputRef.current?.click()}}
-          type="button"
-        />
-      </div>
-    </div>
-  );
+	return (
+		<div className={styles.uploader}>
+			<div className={styles.uploader__preview}>
+				{preview || itemImage ? (
+					<img
+						className={styles["uploader__preview-img"]}
+						src={preview || itemImage}
+						alt="preview"
+					/>
+					) : (
+					<img
+						className={ `${styles["uploader__preview-img"]} ${styles.default}` }
+						src={ imgPreview }
+						alt="preview default"
+					/>
+				)}
+				<div className={ styles["uploader__preview-action"] }>
+					{ preview && <Button 
+							typeButton="ACSENT_BUTTON"
+							size="SMALL"
+							type="button"
+							onClick={resetPreview}
+						>
+							<i className="fa-solid fa-xmark" />
+						</Button>
+					}
+					{(itemImage && !preview) && (
+						<Button 
+							typeButton="ACSENT_BUTTON"
+							size="SMALL"
+							type="button"
+							onClick={deleteImageFile}
+						>
+							<i className="fa-solid fa-trash-can" />
+						</Button>
+					)}
+				</div>
+			</div>
+			<div className={ styles["uploader__button-wrapper"] }>
+				<input
+					className={ styles.uploader__input }
+					id="uploadImage"
+					type="file"
+					accept={
+						option?.allowedExtantion
+						? option.allowedExtantion.join(",")
+						: ".jpeg,.jps,.png,.svg"
+					}
+					onChange={ onChangeImageHandler }
+					ref={ inputRef }
+					name={ name }
+				/>
+				<Button 
+					typeButton={"ACSENT_BUTTON"}
+					size={"MAX"}
+					onClick={ () => {inputRef.current?.click()} }
+					type="button"
+				>
+					<div>
+						<span className={ styles["uploader__button-icon"] }>+</span>
+						<p className={ styles["uploader__button-description"] }>
+							Upload image
+						</p>
+					</div>
+				</Button>
+			</div>
+		</div>
+	);
 };
 
 export default UploadImage;

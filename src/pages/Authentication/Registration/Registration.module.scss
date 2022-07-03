@@ -1,0 +1,17 @@
+@import "../../../shared/styles/colors.scss";
+
+.registration {
+    width: 100%;
+    max-width: 540px;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: $main-color;
+    .registration__title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: $text-color;
+    }
+}

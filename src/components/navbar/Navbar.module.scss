@@ -2,12 +2,16 @@
 
 .navigation {
   .navigation__list {
+    display: flex;
     .navigation__item {
       a {
         font-size: 1rem;
         font-weight: 600;
         text-decoration: none;
         color: $text-color;
+      }
+      &:not(:first-child) {
+        margin-left: .5rem;
       }
     }
   }
