@@ -34,6 +34,9 @@
 
 .game-state {
 	.game-state__element {
+		&:not(:first-child) {
+			margin-left: .5rem;
+		}
 		font-size: .8rem;
 		color: $text-color;
 		i {

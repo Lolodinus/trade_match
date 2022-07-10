@@ -1,6 +1,9 @@
 @import "../../shared/styles/colors.scss";
 
 .trade {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
     padding: .5rem 0;
     .trade__title {
         margin: 0;
@@ -10,6 +13,9 @@
         text-align: center;
         color: $text-color;
         background-color: $acsent-color;
+    }
+    .trade__content {
+        flex-grow: 1;
     }
 }
 

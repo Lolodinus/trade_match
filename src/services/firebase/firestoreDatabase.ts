@@ -44,7 +44,7 @@ class FirestoreDB {
 		try {
 			await setDoc(doc(this.db, `${collectionDb}${docId}`), docData);
 		} catch (e) {
-			console.error("Error adding document: ", e);
+			throw new Error(`Error adding document: ${e}`);
 		}
 	};
 
@@ -92,7 +92,6 @@ class FirestoreDB {
 		try {
 			const docsRef = this.getDocsRef(collectionDb);
 			let q: Query<DocumentData> | undefined = undefined;
-			console.log(options);
 			if(options?.sortBy && options?.docLimit) {
 				q = query(docsRef, orderBy(options.sortBy, "desc"), limit(options.docLimit));
 			} else if (options?.sortBy) {
@@ -101,7 +100,6 @@ class FirestoreDB {
 				q = query(docsRef, limit(options.docLimit));
 			}
 			const querySnapshot = await getDocs(q ? q : docsRef);
-			console.log(querySnapshot)
 			let docs = [];
 			for (let documentSnapshot of querySnapshot.docs) {
 				docs.push({
@@ -111,7 +109,6 @@ class FirestoreDB {
 			}
 			return docs;
 		} catch (error) {
-			console.log(error);
 			if(isError(error)) throw new Error(error.message);
 		}
 	};

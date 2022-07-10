@@ -11,13 +11,18 @@ import styles from "./Header.module.scss";
 
 const Header = (): JSX.Element => {
 	const [moneyActive, setMoneyActive] = useState(false);
+	const [dayActive, setDayActive] = useState(false);
     const { user } = useAppSelector(state => state.userReducer);
-	const { money } = useAppSelector(state => state.gameReducer);
+	const { money, day } = useAppSelector(state => state.gameReducer);
 	const navigate = useNavigate();
 
 	useEffect(()=> {
 		setMoneyActive(true)
 	}, [money])
+
+	useEffect(()=> {
+		setDayActive(true)
+	}, [day])
 
 	return (
 		<div className={styles.header}>
@@ -35,6 +40,21 @@ const Header = (): JSX.Element => {
 						<div className={ styles["game-state__element"] }>
 							<i className="fa-solid fa-coins" />
 							{ money }
+						</div>
+				</CSSTransition>
+				<CSSTransition
+					in={ dayActive }
+					timeout={400}
+					classNames={{
+						enterActive: styles.active,
+					}}
+					onEntered={() => {
+						setDayActive(false)
+					}}
+				>
+						<div className={ styles["game-state__element"] }>
+							<i className="fa-solid fa-sun"/>
+							{ day }
 						</div>
 				</CSSTransition>
 			</div>

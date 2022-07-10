@@ -15,7 +15,6 @@ export const fetchItems = createAsyncThunk(
                 sortBy: `random.${ getRandomNumber(2) }`,
                 docLimit: limit
             });
-            console.log(data);
             if(!data) return;
             const item: IItem[] = transformDataToItem(data);
             return item;

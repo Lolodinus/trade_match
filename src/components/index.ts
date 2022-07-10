@@ -9,6 +9,7 @@ import Select from "./select";
 import Form from "./form";
 import CreateItemForm from "./createItemForm";
 import UpdateItemForm from "./updateItemForm";
+import GamePanel from "./gamePanel";
 
 export {
   Header,
@@ -17,6 +18,7 @@ export {
   List,
   Item,
   DraggbleElement,
+  GamePanel,
   // custom element
   UploadImage,
   Select,

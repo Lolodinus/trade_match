@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/redux";
 import { authentication } from "../../store/reducers/user/ActionCreators";
+import { paths } from "../../const/link";
 
 // HOC
 import { RequirePermission } from "../../hoc";
@@ -50,30 +51,29 @@ function App() {
             <div className={styles.body__container}>
             <div className={styles.body__row}>
                 <Routes>
-                    <Route path="/" element={<Main />} />
-                    <Route path="create" element={
+                    {/* <Route path="/" element={<Main />} /> */}
+                    <Route path={ paths.createItem } element={
                         <RequirePermission role="ADMINISTRATOR">
                             <CreateItem />
                         </RequirePermission>
                     } />
-                    <Route path="list" element={
+                    <Route path={ paths.itemList } element={
                         <RequirePermission role="ADMINISTRATOR">
                             <ItemList />
                         </RequirePermission>
                     } />
-                    <Route path="list/:id" element={
+                    <Route path={ `${paths.itemList}/:id` } element={
                         <RequirePermission role="ADMINISTRATOR">
                             <ItemDetail />
                         </RequirePermission>
                     } />
-                    <Route path="authentication" element={<Authentication />} >
-                        <Route path="registration" element={<Registration />} />
-                        <Route path="login" element={<Login />} />
-                        <Route path="logout" element={<Logout />} />
-                        <Route path="registration" element={<Registration />} />
+                    <Route path={ paths.authentication } element={<Authentication />} >
+                        <Route path={ paths.registration } element={<Registration />} />
+                        <Route path={ paths.login } element={<Login />} />
+                        <Route path={ paths.logout } element={<Logout />} />
                     </Route>
 
-                    <Route path="/trade" element={<Trade />} />
+                    <Route path={ paths.main } element={<Trade />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </div>

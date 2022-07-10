@@ -7,6 +7,7 @@ import { useAppDispatch } from "../../../hooks/redux";
 import { login } from "../../../store/reducers/user/ActionCreators";
 import { firebaseError } from "../../../services/firebase";
 import { isError } from "../../../utils/objIsType";
+import { paths } from "../../../const/link";
 
 // Components
 import { Form, Button } from "../../../components";
@@ -47,7 +48,7 @@ const Login = () => {
                 password: data.password,
                 email: data.email
             }));
-            navigate("/");
+            navigate(paths.main);
         } catch (error) {
             if (isError(error)) {
                 firebaseError.firebaseSingInError(error.message, setAuthError);

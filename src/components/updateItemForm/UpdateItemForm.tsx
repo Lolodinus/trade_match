@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import TradeMatch from "../../services/TradeMatch/TradeMatchItem";
 import { firestoreDb } from "../../services/firebase";
 import { transformDataToType } from "../../services/firebase/transformData";
+import { paths } from "../../const/link";
 
 // Components
 import { Form, UploadImage, Select } from "../";
@@ -69,7 +70,7 @@ const UpdateItemForm = (props: IUpdateItemFormProps) => {
 			if (updateData && updateData !== {}) {
 				tradeMatch.upadateItem<IFirestorUpdateModelItem>(item.id, updateData);
 			}
-			navigate("/list");
+			navigate(`/${paths.itemList}`);
 		} catch (error) {
 			if(isError(error)) console.log(error.message);
 		}

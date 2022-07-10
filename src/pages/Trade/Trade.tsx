@@ -5,7 +5,7 @@ import { spendMoney, getMoney } from "../../store/reducers/game/GameReducer";
 
 
 // Components
-import { List, Item, Button } from "../../components";
+import { List, Item, Button, GamePanel } from "../../components";
 
 // Styles
 import styles from "./Trade.module.scss";
@@ -20,6 +20,7 @@ type tradeProps = {
 
 const ShopItem = (props: tradeProps) => {
 	const { item } = props;
+	const { money } = useAppSelector(state => state.gameReducer);
 	const dispatch = useAppDispatch();
 
 	return (
@@ -37,6 +38,7 @@ const ShopItem = (props: tradeProps) => {
 					typeButton="ACSENT_BUTTON"
 					size={"SMALL"}
 					onClick={() => {
+						if (item.price > money) return;
 						dispatch(spendMoney(item.price));
 					}}
 				>
@@ -70,17 +72,20 @@ const Trade = () => {
 			<h1 className={ styles.trade__title } >
             	Trade
 			</h1>
-            {items && (
-				<List
-					items={items}
-					renderItem={(item) => (
-						<Item 
-							content={<ShopItem item={item} />} 
-							key={item.id}
-						/>
-					)}
-				/>
-			)}
+			<div className={ styles.trade__content }>
+				{items && (
+					<List
+						items={items}
+						renderItem={(item) => (
+							<Item 
+								content={<ShopItem item={item} />} 
+								key={item.id}
+							/>
+						)}
+					/>
+				)}
+			</div>
+			<GamePanel/>
         </div>
     )
 }
