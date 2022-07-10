@@ -1,10 +1,12 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { useAppDispatch } from "../../../hooks/redux";
-import { login } from "../../../store/reducers/ActionCreators";
+import { login } from "../../../store/reducers/user/ActionCreators";
+import { firebaseError } from "../../../services/firebase";
+import { isError } from "../../../utils/objIsType";
 
 // Components
 import { Form, Button } from "../../../components";
@@ -14,8 +16,6 @@ import styles from "./Login.module.scss";
 
 // Types
 import { SubmitHandler } from "react-hook-form";
-import { firebaseAuthError } from "../../../services/firebase/firebaseAuthErrorValidation";
-import { isError } from "../../../utils/objIsType";
 
 type Inputs = {
     email: string;
@@ -50,9 +50,9 @@ const Login = () => {
             navigate("/");
         } catch (error) {
             if (isError(error)) {
-                firebaseAuthError(error.message, setAuthError);
-            }
-        }
+                firebaseError.firebaseSingInError(error.message, setAuthError);
+            };
+        };
     }
 
     return (

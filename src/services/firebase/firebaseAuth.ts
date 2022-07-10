@@ -40,7 +40,8 @@ class FirebaseAuth {
                 role: "USER"
             }
             await firestoreDb.addDocWithId("user/", user.uid, data);
-            const createUser = await firestoreDb.getDocById("user/", user.uid);
+            const userRef = firestoreDb.getDocRef("user/", user.uid);
+            const createUser = await firestoreDb.getDoc(userRef);
             if(isUser(createUser, ["login", "role"])) { 
                 return {
                     login: createUser.login,
@@ -57,7 +58,8 @@ class FirebaseAuth {
             const userCredential = await signInWithEmailAndPassword(this.auth, userData.email, userData.password);
             const aunthUser = userCredential.user;
             if (!aunthUser) return;
-            const user = await firestoreDb.getDocById("user/", aunthUser.uid);
+            const userRef = firestoreDb.getDocRef("user/", aunthUser.uid);
+            const user = await firestoreDb.getDoc(userRef);
             if(isUser(user, ["login", "role"])) { 
                 return {
                     login: user.login,
@@ -81,7 +83,8 @@ class FirebaseAuth {
         try {
             onAuthStateChanged(this.auth, async(aunthUser) => {
                 if(!aunthUser) return;
-                const user = await firestoreDb.getDocById("user/", aunthUser.uid);
+                const userRef = firestoreDb.getDocRef("user/",  aunthUser.uid);
+                const user = await firestoreDb.getDoc(userRef);
                 if(isUser(user, ["login", "role"])) {
                     next({
                         login: user.login, 

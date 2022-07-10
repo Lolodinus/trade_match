@@ -4,11 +4,11 @@ import React from "react";
 import styles from "./Item.module.scss";
 
 // Types
-interface IItem {
+interface IItemProps {
   content: JSX.Element;
 }
 
-const Item = (props: IItem): JSX.Element => {
+const Item = (props: IItemProps): JSX.Element => {
   const { content } = props;
 
   return (

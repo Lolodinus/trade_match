@@ -9,33 +9,51 @@ import { app } from "../../config/firebase";
 
 // Types
 import { FirebaseStorage, StorageReference } from "firebase/storage";
-type path = "item/" | "trader/";
-const storage = getStorage(app);
+import { imgExtantion } from "../../interface/other/other";
 
+type path = "item/" | "trader/";
+type img = `${string}.${imgExtantion}`;
+
+
+const storage = getStorage(app);
 class FBStorage {
-  storage: FirebaseStorage;
-  constructor(storage: FirebaseStorage) {
-    this.storage = storage;
-  }
-  getFileRef = (fullFilePath: string) => {
-    return ref(this.storage, fullFilePath);
-  };
-  getFileRefByUrl = (url: string) => {
-    return ref(this.storage, url);
-  };
-  getFileUrl = async (fileRef: StorageReference) => {
-    return await getDownloadURL(fileRef);
-  };
-  uploadFile = async (file: File, fileRef: StorageReference) => {
-    await uploadBytes(fileRef, file);
-  };
-  deleteFile = async (fileRef: StorageReference) => {
-    try {
-      deleteObject(fileRef);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+	storage: FirebaseStorage;
+
+	constructor(storage: FirebaseStorage) {
+		this.storage = storage;
+	}
+
+	getFileRef = (folder: path, image: img) => {
+		return ref(this.storage, `${folder}${image}`);
+	};
+	
+	getFileRefByUrl = (url: string) => {
+		return ref(this.storage, url);
+	};
+
+	getFileUrl = async (fileRef: StorageReference) => {
+		try {
+			return await getDownloadURL(fileRef);
+		} catch (error) {
+			throw new Error("Failed to get URL");
+		}
+	};
+
+	uploadFile = async (file: File, fileRef: StorageReference) => {
+		try {
+			await uploadBytes(fileRef, file);
+		} catch (error) {
+			throw new Error("Failed to upload file");
+		}
+	};
+
+	deleteFile = async (fileRef: StorageReference) => {
+		try {
+			await deleteObject(fileRef);
+		} catch (error) {
+			throw new Error("Failed to delete file");
+		}
+	};
 }
 
 const firebaseStorage = new FBStorage(storage);

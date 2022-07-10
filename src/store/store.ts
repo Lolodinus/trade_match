@@ -1,8 +1,15 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import itemReducer from "./reducers/itemReducer";
-import userReducer from "./reducers/userReducer";
+import adminPanelReducer from "./reducers/adminePanel/AdminPanelReducer";
+import itemReducer from "./reducers/item/itemReducer";
+import userReducer from "./reducers/user/UserReducer";
+import gameReducer from "./reducers/game/GameReducer";
 
-const rootReducer = combineReducers({itemReducer, userReducer});
+const rootReducer = combineReducers({
+    adminPanelReducer, 
+    itemReducer, 
+    userReducer, 
+    gameReducer
+});
 
 export const setupStore = () => {
     return configureStore({

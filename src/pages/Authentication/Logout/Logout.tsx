@@ -1,6 +1,6 @@
 import React from "react";
 import { useAppDispatch } from "../../../hooks/redux";
-import { logout } from "../../../store/reducers/ActionCreators";
+import { logout } from "../../../store/reducers/user/ActionCreators";
 
 // Components
 import { Form } from "../../../components";

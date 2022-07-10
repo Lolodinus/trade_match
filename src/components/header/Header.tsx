@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../hooks/redux";
+import { CSSTransition } from 'react-transition-group';
 
 // Component
 import { Navbar, Button } from "../";
@@ -9,13 +10,33 @@ import { Navbar, Button } from "../";
 import styles from "./Header.module.scss";
 
 const Header = (): JSX.Element => {
+	const [moneyActive, setMoneyActive] = useState(false);
     const { user } = useAppSelector(state => state.userReducer);
+	const { money } = useAppSelector(state => state.gameReducer);
 	const navigate = useNavigate();
+
+	useEffect(()=> {
+		setMoneyActive(true)
+	}, [money])
 
 	return (
 		<div className={styles.header}>
-			<div className={styles.header__left}>
-				<Navbar />
+			<div className={ `${styles.header__left} ${styles["game-state"]}` }>
+				<CSSTransition
+					in={ moneyActive }
+					timeout={400}
+					classNames={{
+						enterActive: styles.active,
+					}}
+					onEntered={() => {
+						setMoneyActive(false)
+					}}
+				>
+						<div className={ styles["game-state__element"] }>
+							<i className="fa-solid fa-coins" />
+							{ money }
+						</div>
+				</CSSTransition>
 			</div>
 				<Link to="/" className={styles.header__center}>Trade</Link>
 			<div className={styles.header__right}>
@@ -24,6 +45,7 @@ const Header = (): JSX.Element => {
 				}}>
 					{user ? "Logout" : "Login"}
 				</Button>
+				<Navbar />
 			</div>
 		</div>
 	);

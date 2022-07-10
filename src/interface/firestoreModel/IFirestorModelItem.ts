@@ -5,6 +5,11 @@ interface IFirestorModelItem {
   type: string;
   child?: IFirestorModelItem;
   parent?: IFirestorModelItem;
+  random: {
+    0: number,
+    1: number,
+    2: number
+  };
 }
 
 interface IFirestorUpdateModelItem {
@@ -14,6 +19,11 @@ interface IFirestorUpdateModelItem {
   type?: string;
   child?: IFirestorModelItem;
   parent?: IFirestorModelItem;
+  random?: {
+    0: number,
+    1: number,
+    2: number
+  };
 }
 
 export { IFirestorModelItem, IFirestorUpdateModelItem };

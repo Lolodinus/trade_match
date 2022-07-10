@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { firestoreDb } from "../../services/firebase";
-import { transformDataToItem } from "../../services/firebase/transformData";
-import TradeMatch from "../../services/TradeMatch/TradeMatchItem";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { fetchAllItems, itemDelete } from "../../store/reducers/adminePanel/ActionCreators";
 
 // Component
 import { List, Item, Button } from "../../components";
@@ -12,8 +11,6 @@ import styles from "./ItemList.module.scss";
 
 // Types
 import { IItem } from "../../interface/tradeMatch";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { fetchItems, itemDelete } from "../../store/reducers/ActionCreators";
 
 interface propsTradeItem {
   	item: IItem;
@@ -54,10 +51,10 @@ const TradeItem = (props: propsTradeItem) => {
 };
 
 const ItemList = () => {
-	const { items } = useAppSelector(state => state.itemReducer);
+	const { items } = useAppSelector(state => state.adminPanelReducer);
 	const dispatch = useAppDispatch();
 	useEffect(() => {
-		dispatch(fetchItems());
+		dispatch(fetchAllItems());
 	}, [])
   
 	return (

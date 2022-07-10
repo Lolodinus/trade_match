@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/redux";
-import { authentication } from "../../store/reducers/ActionCreators";
+import { authentication } from "../../store/reducers/user/ActionCreators";
 
 // HOC
 import { RequirePermission } from "../../hoc";
@@ -19,7 +19,8 @@ import {
     Authentication, 
     Registration, 
     Login,
-    Logout
+    Logout,
+    Trade
 } from "../../pages";
 
 // Styles
@@ -72,6 +73,7 @@ function App() {
                         <Route path="registration" element={<Registration />} />
                     </Route>
 
+                    <Route path="/trade" element={<Trade />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </div>

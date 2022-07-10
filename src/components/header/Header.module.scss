@@ -2,19 +2,59 @@
 
 
 .header {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  .header__center{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: $text-color;
-    text-decoration: none;
-  }
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	.header__center{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+		font-size: 1.8rem;
+		font-weight: 700;
+		color: $text-color;
+		text-decoration: none;
+	}
+	.header__left {
+		display: flex;
+		align-items: center;
+	}
+	.header__right {
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		button {
+			margin-right: .5rem;
+		}
+	}
+}
+
+
+.game-state {
+	.game-state__element {
+		font-size: .8rem;
+		color: $text-color;
+		i {
+			margin-right: .5rem;
+		}
+		&.active {
+			animation: state-active  400ms ease;
+		}
+	}
+}
+
+
+@keyframes state-active {
+	0% {
+		color: $acsent-color;
+	}
+	50% {
+		transform: scale(1.1);
+	}
+	100% {
+		color: $text-color;
+		transform: scale(1.0);
+	}
 }

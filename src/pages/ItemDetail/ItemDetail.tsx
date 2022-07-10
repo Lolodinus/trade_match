@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import TradeMatch from "../../services/TradeMatch/TradeMatchItem";
-import { isItem } from "../../utils/objIsType";
+import { isItem, isError } from "../../utils/objIsType";
 
 // Components
 import { UpdateItemForm } from "../../components";
@@ -28,10 +28,13 @@ const ItemDetail = () => {
 		if (!id) return navigate("not_found");
 			tradeMatch.getItemById(id)
 			.then((item) => {
-				if (!item) return navigate("/not_found");
+				if (isError(item)) throw new Error(item.message); 
 				setItem(item);
 			})
-			.catch(error => console.log(error.message));
+			.catch(error => {
+				navigate("/not_found");
+				console.log(error.message);
+			});
 		}
 	}, []);
 

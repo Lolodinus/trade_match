@@ -2,8 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 // Type
 import { PayloadAction } from "@reduxjs/toolkit";
-import { IUser } from "../../interface/tradeMatch/user";
-import { authentication } from "./ActionCreators";
+import { IUser } from "../../../interface/tradeMatch/user";
 
 interface IUserState {
     user: IUser | undefined;

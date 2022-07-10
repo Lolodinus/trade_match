@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchItems } from "./ActionCreators";
+import { fetchAllItems } from "./ActionCreators";
 
 // Type
 import { PayloadAction } from "@reduxjs/toolkit";
-import { IItem } from "../../interface/tradeMatch";
+import { IItem } from "../../../interface/tradeMatch";
+
 
 interface IItemState {
     items: IItem[]
@@ -17,8 +18,8 @@ const initialState: IItemState = {
     error: ""
 }
 
-export const itemSlice = createSlice({
-    name: "item",
+export const adminePanelSlice = createSlice({
+    name: "adminePanel",
     initialState,
     reducers: {
         itemDelete(state, action: PayloadAction<string>) {
@@ -26,19 +27,19 @@ export const itemSlice = createSlice({
         }
     },
     extraReducers: {
-        [fetchItems.fulfilled.type]: (state, action: PayloadAction<IItem[]>) => {
+        [fetchAllItems.fulfilled.type]: (state, action: PayloadAction<IItem[]>) => {
             state.isLoading = false;
             state.error = ""
             state.items = action.payload;
         },
-        [fetchItems.pending.type]: (state) => {
+        [fetchAllItems.pending.type]: (state) => {
             state.isLoading = true;
         },
-        [fetchItems.rejected.type]: (state,  action: PayloadAction<string>) => {
+        [fetchAllItems.rejected.type]: (state,  action: PayloadAction<string>) => {
             state.isLoading = false;
             state.error = action.payload
-        },
+        }
     }
 })
 
-export default itemSlice.reducer;
+export default adminePanelSlice.reducer;

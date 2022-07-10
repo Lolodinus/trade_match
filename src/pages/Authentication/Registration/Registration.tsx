@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-import { isError } from "../../../utils/objIsType";
-import { firebaseCreateUserError } from "../../../services/firebase/firebaseAuthErrorValidation";
 import { useAppDispatch } from "../../../hooks/redux";
-import { regisrtation } from "../../../store/reducers/ActionCreators";
+import { regisrtation } from "../../../store/reducers/user/ActionCreators";
+import { isError } from "../../../utils/objIsType";
+import { firebaseError } from "../../../services/firebase";
 
 // Components
 import { Form } from "../../../components";
@@ -53,7 +53,7 @@ const Registration = () => {
         } catch (error) {
             if (isError(error)) {
                 console.log(error.message)
-                firebaseCreateUserError(error.message, setAuthError);
+                firebaseError.firebaseCreateUserError(error.message, setAuthError);
             }
         }
     }

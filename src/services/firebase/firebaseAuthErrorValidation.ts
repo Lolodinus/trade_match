@@ -1,4 +1,4 @@
-export function firebaseAuthError(errorCode: string, next: (customErrorMessage: string) => void) {
+export function firebaseSingInError(errorCode: string, next: (customErrorMessage: string) => void) {
     let customErrorMessage: string = "Error";
     
     if (/auth\/invalid-email/.exec(errorCode)) {
