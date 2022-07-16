@@ -1,0 +1,21 @@
+// Logo
+@mixin logo-font($color: $text-color) {
+    font-size: 1.8rem;
+    color: $color;
+}
+
+
+@mixin title-font($color: $text-color) {
+    font-size: 1.4rem;
+    color: $color;
+}
+
+@mixin item-font($color: $text-color) {
+    font-size: 1.2rem;
+    color: $color;
+}
+
+@mixin default-font($color: $text-color) {
+    font-size: 0.8rem;
+    color: $color;
+}

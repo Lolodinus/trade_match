@@ -1,4 +1,5 @@
 @import "../../shared/styles/colors.scss";
+@import "../../shared/styles/fonts.scss";
 
 .form{
 	width: 100%;
@@ -11,9 +12,7 @@
 		margin: .25rem 0;
 		display: flex;
 		flex-direction: column;
-		font-size: 1rem;
-		font-weight: 600;
-		color: $text-color;
+		@include default-font;
 
 		& > * {
 		margin-top: .5rem;
@@ -23,6 +22,11 @@
 		height: 1.8rem;
 		color: $main-color;
 		padding: 0 .5rem;
+		@include default-font($main-color);
+
+		&::placeholder {
+			@include default-font(default);
+		}
 
 		&:focus {
 			outline: .2rem solid $acsent-color;
@@ -30,7 +34,7 @@
 
 		}
 	}
-	Button {
+	button[type=submit] {
 		margin-top: .25rem;
 	}
 }

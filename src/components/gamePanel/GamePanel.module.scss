@@ -2,6 +2,7 @@
 
 .panel {
     width: 100%;
+    border: .2rem dashed $text-color;
     padding: 1rem;
     background-color: $main-color;
     display: flex;

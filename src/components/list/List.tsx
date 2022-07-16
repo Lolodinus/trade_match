@@ -5,7 +5,7 @@ import styles from "./List.module.scss";
 
 interface IListProps<T> {
   items: T[];
-  renderItem: (item: T) => React.ReactNode;
+  renderItem: (item: T, index: number) => React.ReactNode;
 }
 
 export default function List<T>(props: IListProps<T>) {

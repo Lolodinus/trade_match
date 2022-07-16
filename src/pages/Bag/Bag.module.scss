@@ -1,28 +1,9 @@
 @import "../../shared/styles/colors.scss";
-@import "../../shared/styles/fonts.scss";
-
-.trade {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    padding: .5rem 0;
-    .trade__title {
-        margin: 0;
-        border: .2rem dashed $text-color;
-        padding: .5rem;
-        @include title-font;
-        text-align: center;
-        background-color: $acsent-color;
-    }
-    .trade__content {
-        flex-grow: 1;
-    }
-}
 
 .item {
     width: 100%;
     height: 100%;
-    border: .2rem dashed $text-color;
+    border: .2rem dashed $second-color;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -38,13 +19,18 @@
         align-items: center;
         }
     }
+    &.active {
+        background-color: $ligth-main-color;
+    }
     .item__title {
         width: 100%;
         padding: .2rem 0;
         display: flex;
         justify-content: center;
         align-items: center;
-        @include item-font;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: $text-color;
         background-color: $acsent-color;
     }
     .item__img {
@@ -62,10 +48,12 @@
     .item__price {
         margin-left: auto;
         padding: .2rem;
-        @include default-font;
+        font-size: .8rem;
+        font-weight: 600;
+        color: $text-color;
         background-color: $acsent-color;
         i {
-            margin-right: .5rem;
+            margin-right: .2rem;
         }
     }
     .item__action {

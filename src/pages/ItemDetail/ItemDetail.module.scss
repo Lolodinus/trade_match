@@ -1,4 +1,6 @@
 @import "../../shared/styles/colors.scss";
+@import "../../shared/styles/fonts.scss";
+
 
 .detail {
 	width: 100%;
@@ -12,10 +14,10 @@
 		padding: 1rem;
 		background-color: $main-color;
 		.detail__title {
-			font-size: 1.8rem;
-			font-weight: 700;
-			color: $text-color;
+			@include title-font;
 			text-align: center;
+			margin: 0;
+			margin-bottom: .5rem;
 		}
 	}
 }

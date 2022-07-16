@@ -12,8 +12,10 @@ import styles from "./Header.module.scss";
 const Header = (): JSX.Element => {
 	const [moneyActive, setMoneyActive] = useState(false);
 	const [dayActive, setDayActive] = useState(false);
+	const [bagItemActive, setBagItemActive] = useState(false);
     const { user } = useAppSelector(state => state.userReducer);
-	const { money, day } = useAppSelector(state => state.gameReducer);
+	const { money, day, bagItem, maxBagItem } = useAppSelector(state => state.gameReducer);
+	const { itemCells } = useAppSelector(state => state.bagReducer);
 	const navigate = useNavigate();
 
 	useEffect(()=> {
@@ -23,6 +25,10 @@ const Header = (): JSX.Element => {
 	useEffect(()=> {
 		setDayActive(true)
 	}, [day])
+
+	useEffect(()=> {
+		setBagItemActive(true)
+	}, [itemCells.length, ])
 
 	return (
 		<div className={styles.header}>
@@ -55,6 +61,21 @@ const Header = (): JSX.Element => {
 						<div className={ styles["game-state__element"] }>
 							<i className="fa-solid fa-sun"/>
 							{ day }
+						</div>
+				</CSSTransition>
+				<CSSTransition
+					in={ bagItemActive }
+					timeout={400}
+					classNames={{
+						enterActive: styles.active,
+					}}
+					onEntered={() => {
+						setBagItemActive(false)
+					}}
+				>
+						<div className={ styles["game-state__element"] }>
+							<i className={ `${styles["game-state__icon"]} ${styles._bag}` }/>
+							{ `${itemCells.length}/${maxBagItem}` }
 						</div>
 				</CSSTransition>
 			</div>

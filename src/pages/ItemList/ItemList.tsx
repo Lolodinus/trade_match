@@ -27,7 +27,10 @@ const TradeItem = (props: propsTradeItem) => {
 			<div className={styles.item__img}>
 				{item.imgUrl && <img src={item.imgUrl} alt={item.title} />}
 			</div>
-			<div className={styles.item__price}>{item.price}</div>
+			<div className={styles.item__price}>
+				<i className="fa-solid fa-coins" />
+				{item.price}
+			</div>
 			<div className={styles.item__action}>
 				<Button
 					typeButton="ACSENT_BUTTON"

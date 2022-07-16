@@ -11,8 +11,7 @@ import { RequirePermission } from "../../hoc";
 import { Header } from "../";
 
 // Page
-import { 
-    Main, 
+import {
     NotFound, 
     CreateItem, 
     ItemList, 
@@ -21,7 +20,8 @@ import {
     Registration, 
     Login,
     Logout,
-    Trade
+    Trade,
+    Bag
 } from "../../pages";
 
 // Styles
@@ -33,7 +33,6 @@ function App() {
     useEffect(() => {
         dispatch(authentication())
     }, [])
-  
 
     return (
         <div className={styles.app}>
@@ -74,6 +73,7 @@ function App() {
                     </Route>
 
                     <Route path={ paths.main } element={<Trade />} />
+                    <Route path="bag" element={<Bag />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </div>

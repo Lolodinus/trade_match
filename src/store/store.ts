@@ -3,12 +3,14 @@ import adminPanelReducer from "./reducers/adminePanel/AdminPanelReducer";
 import itemReducer from "./reducers/item/itemReducer";
 import userReducer from "./reducers/user/UserReducer";
 import gameReducer from "./reducers/game/GameReducer";
+import bagReducer from "./reducers/bag/BagReducer";
 
 const rootReducer = combineReducers({
     adminPanelReducer, 
     itemReducer, 
     userReducer, 
-    gameReducer
+    gameReducer,
+    bagReducer
 });
 
 export const setupStore = () => {

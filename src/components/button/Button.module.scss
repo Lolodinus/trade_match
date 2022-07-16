@@ -1,4 +1,5 @@
-@import "../../shared/styles/colors";
+@import "../../shared/styles/colors.scss";
+@import "../../shared/styles/fonts.scss";
 
 .button {
   height: 1.8rem;
@@ -7,8 +8,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1rem;
-  font-weight: 600;
+  @include default-font;
   cursor: pointer;
 
   &.acsent {
@@ -42,12 +42,9 @@
 // Button size
 
 .small {
-	min-width: 1.8rem;
-	height: 1.8rem;
-	margin: 0.2rem;
-	padding: .1rem;
-	font-size: 1rem;
-	font-weight: 600;
+	height: 1.5rem;
+	margin: .2rem;
+	padding: .2rem;
 }
 .wide {
 	width: 100%;

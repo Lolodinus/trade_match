@@ -149,7 +149,9 @@ const UploadImage = (props: IUploadImageProps) => {
 					type="button"
 				>
 					<div>
-						<span className={ styles["uploader__button-icon"] }>+</span>
+						<span className={ styles["uploader__button-icon"] }>
+							<i className="fa-solid fa-square-plus"/>
+						</span>
 						<p className={ styles["uploader__button-description"] }>
 							Upload image
 						</p>

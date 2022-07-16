@@ -21,6 +21,9 @@ const Navbar = () => {
 					<li className={styles.navigation__item}>
 						<NavLink to="/list">Items</NavLink>				
 					</li>
+					<li className={styles.navigation__item}>
+						<NavLink to="/bag">Bag</NavLink>				
+					</li>
 				</> }
 			</ul>
 		</nav>

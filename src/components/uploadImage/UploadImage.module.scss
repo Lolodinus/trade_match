@@ -1,81 +1,79 @@
 @import "../../shared/styles/colors.scss";
 
 .uploader {
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-  height: 300px;
-  margin: 0 -.5rem;
-  .uploader__input {
-    display: none;
-  }
-  .uploader__preview {
-    width: 50%;
-    margin: 0 .5rem;
-    border: .2rem dashed $text-color;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    &:hover,
-    &:focus {
-      .uploader__preview-action {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-    }
-
-    .uploader__preview-img {
-      height: 100%;
-      width: 100%;
-      padding: 1rem;
-      display: block;
-      object-fit: contain;
-      &.default {
-        height: 50%;
-        width: 50%;
-        object-fit: contain;
-      }
-    }
-    .uploader__preview-action {
-      width: 100%;
-      height: 100%;
-      display: none;
-      position: absolute;
-      left: 0;
-      top: 0;
-      background-color: rgba($dark-main-color, .7);
-      .uploader__preview-btn {
-        width: 2rem;
-        height: 2rem;
-        border: none;
-        margin: .5rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 1.5rem;
-        font-weight: 600;
-        color: $text-color;
-        background-color: $acsent-color;
-        cursor: pointer;
-      }
-    }
-  }
-  .uploader__button-wrapper {
-    width: 50%;
-    height: 100%;
-    margin: 0 .5rem;
-    position: relative;
-  }
+	display: flex;
+	justify-content: center;
+	align-items: stretch;
+	height: 300px;
+	margin: 0 -.5rem;
+	.uploader__input {
+		display: none;
+	}
+	.uploader__preview {
+		width: 50%;
+		margin: 0 .5rem;
+		border: .2rem dashed $text-color;
+		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		&:hover,
+		&:focus {
+			.uploader__preview-action {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+		}
+		.uploader__preview-img {
+			height: 100%;
+			width: 100%;
+			padding: 1rem;
+			display: block;
+			object-fit: contain;
+			&.default {
+				height: 50%;
+				width: 50%;
+				object-fit: contain;
+			}
+		}
+		.uploader__preview-action {
+			width: 100%;
+			height: 100%;
+			display: none;
+			position: absolute;
+			left: 0;
+			top: 0;
+			background-color: rgba($dark-main-color, .7);
+			.uploader__preview-btn {
+				width: 2rem;
+				height: 2rem;
+				border: none;
+				margin: .5rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				font-size: 1.5rem;
+				font-weight: 600;
+				color: $text-color;
+				background-color: $acsent-color;
+				cursor: pointer;
+			}
+		}
+	}
+	.uploader__button-wrapper {
+		width: 50%;
+		height: 100%;
+		margin: 0 .5rem;
+		position: relative;
+	}
 }
 
 .uploader__button-icon {
-  font-size: 4rem;
-  font-weight: 800;
+	font-size: 4rem;
+	font-weight: 800;
 }
 .uploader__button-description {
-  font-size: 1rem;
-  font-weight: 600;
+	font-size: 1rem;
+	font-weight: 600;
 }

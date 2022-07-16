@@ -1,14 +1,13 @@
 @import "../../shared/styles/colors.scss";
+@import "../../shared/styles/fonts.scss";
 
 .navigation {
   .navigation__list {
     display: flex;
     .navigation__item {
       a {
-        font-size: 1rem;
-        font-weight: 600;
+        @include default-font;
         text-decoration: none;
-        color: $text-color;
       }
       &:not(:first-child) {
         margin-left: .5rem;

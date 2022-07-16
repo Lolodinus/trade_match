@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { fetchItems } from "../../store/reducers/item/ActionCreators";
-import { spendMoney, getMoney } from "../../store/reducers/game/GameReducer";
-
+import { spendMoney, getMoney, removeItem } from "../../store/reducers/game/GameReducer";
+import { itemAdd } from "../../store/reducers/bag/BagReducer";
 
 // Components
 import { List, Item, Button, GamePanel } from "../../components";
@@ -20,7 +20,8 @@ type tradeProps = {
 
 const ShopItem = (props: tradeProps) => {
 	const { item } = props;
-	const { money } = useAppSelector(state => state.gameReducer);
+	const { money, bagItem, maxBagItem } = useAppSelector(state => state.gameReducer);
+	const { itemCells } = useAppSelector(state => state.bagReducer);
 	const dispatch = useAppDispatch();
 
 	return (
@@ -38,8 +39,9 @@ const ShopItem = (props: tradeProps) => {
 					typeButton="ACSENT_BUTTON"
 					size={"SMALL"}
 					onClick={() => {
-						if (item.price > money) return;
+						if (item.price > money || itemCells.length >= maxBagItem ) return;
 						dispatch(spendMoney(item.price));
+						dispatch(itemAdd({item, maxCells: maxBagItem}))
 					}}
 				>
 					Buy
@@ -47,7 +49,11 @@ const ShopItem = (props: tradeProps) => {
 				<Button
 					typeButton="ACSENT_BUTTON"
 					size={"SMALL"}
-					onClick={ () => dispatch(getMoney(item.price)) }
+					onClick={ () => {
+						if (bagItem === 0 ) return;
+						dispatch(getMoney(item.price));
+						dispatch(removeItem());
+					} }
 				>
 					sell
 				</Button>
