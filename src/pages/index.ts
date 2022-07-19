@@ -5,4 +5,20 @@ import ItemDetail from "./ItemDetail";
 import { Authentication, Registration, Login, Logout } from "./Authentication";
 import Trade from "./Trade";
 import Bag from "./Bag";
-export { NotFound, CreateItem, ItemList, ItemDetail, Authentication, Registration, Login, Logout, Trade, Bag };
+import Menu from "./Menu";
+
+const PAGE = {
+    Menu,
+    NotFound,
+    ItemList,
+    ItemDetail,
+    CreateItem,
+    Authentication,
+    Login,
+    Logout,
+    Registration,
+    Trade,
+    Bag,
+}
+
+export default PAGE;

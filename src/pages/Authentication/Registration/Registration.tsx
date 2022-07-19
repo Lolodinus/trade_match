@@ -7,7 +7,7 @@ import { useAppDispatch } from "../../../hooks/redux";
 import { regisrtation } from "../../../store/reducers/user/ActionCreators";
 import { isError } from "../../../utils/objIsType";
 import { firebaseError } from "../../../services/firebase";
-import { paths } from "../../../const/link";
+import PATHS from "../../../const/link";
 
 // Components
 import { Form } from "../../../components";
@@ -50,7 +50,7 @@ const Registration = () => {
                 password: data.password,
                 email: data.email
             }));
-            navigate(paths.main);
+            navigate(PATHS.main);
         } catch (error) {
             if (isError(error)) {
                 console.log(error.message)

@@ -3,39 +3,11 @@ import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { swapCell } from "../../store/reducers/bag/BagReducer";
 
 // Components
-import { List, Item, DraggbleElement } from "../../components";
-
-// Styles
-import styles from "./Bag.module.scss";
+import { List, ListItem, BagItem, DraggableElement, GamePage } from "../../components";
 
 // Types
-import { ICellItem, IItem } from "../../interface/tradeMatch";
+import { ICellItem } from "../../interface/tradeMatch";
 import { ICurrentCell } from "../../interface/components";
-
-interface IBagItemProps {
-    item?: IItem;
-    active: boolean;
-}
-
-const BagItem = (props: IBagItemProps) => {
-	const { item, active } = props;
-    return (
-        <div className={ active 
-            ? `${styles.item} ${styles.active}`
-            : styles.item }
-        >
-            { item && (
-                <>
-                    <div className={styles.item__title}>{item.title}</div>
-                    <div className={styles.item__img}>
-                        {item.imgUrl && <img src={item.imgUrl} alt={item.title} draggable="false"/>}
-                    </div>
-                </>
-            ) }
-		</div>
-    )
-}
-
 
 
 const Bag = () => {
@@ -62,42 +34,38 @@ const Bag = () => {
     }
 
     useEffect(() => {
-        console.log("render")
         setBagCells();
     }, [itemCells])
 
     return(
-        <div>
+        <GamePage title="Bag">
             { cells && <List
                 items={cells}
                 renderItem={(item: ICellItem, index) => {
                     return (
-                        <Item
-                            content={
-                                <DraggbleElement 
-                                    itemId={ item.item?.id }
-                                    cellId={ item.cellId }
-                                    currentCell={ currentCell }
-                                    setCurrentCellId={ setCurrentCell }
-                                    setActive={ setActiveCell }
-                                    move={(dropCell: number, dragCell?: number, ) => {
-                                        if(dragCell === undefined) return;
-                                        dispatch(swapCell({
-                                            dragItemCellId: dragCell, 
-                                            dropItemCellId: dropCell
-                                        }));
-                                    }}
-                                    match={() => { console.log("match") }}
-                                >
-                                    <BagItem item={ item.item } active={ item.cellId === activeCell ? true : false } />
-                                </DraggbleElement>
-                            }
-                            key={ index }
-                        />
+                        <ListItem key={ index }>
+                            <DraggableElement 
+                                itemId={ item.item?.id }
+                                cellId={ item.cellId }
+                                currentCell={ currentCell }
+                                setCurrentCellId={ setCurrentCell }
+                                setActive={ setActiveCell }
+                                move={(dropCell: number, dragCell?: number, ) => {
+                                    if(dragCell === undefined) return;
+                                    dispatch(swapCell({
+                                        dragItemCellId: dragCell, 
+                                        dropItemCellId: dropCell
+                                    }));
+                                }}
+                                match={() => { console.log("match") }}
+                            >
+                                <BagItem item={ item.item } active={ item.cellId === activeCell ? true : false } />
+                            </DraggableElement>
+                        </ListItem>
                     );
                 }}
             /> }
-        </div>
+        </GamePage>
     )
 }
 

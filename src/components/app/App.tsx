@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/redux";
 import { authentication } from "../../store/reducers/user/ActionCreators";
-import { paths } from "../../const/link";
+import PATHS from "../../const/link";
 
 // HOC
 import { RequirePermission } from "../../hoc";
@@ -11,18 +11,7 @@ import { RequirePermission } from "../../hoc";
 import { Header } from "../";
 
 // Page
-import {
-    NotFound, 
-    CreateItem, 
-    ItemList, 
-    ItemDetail, 
-    Authentication, 
-    Registration, 
-    Login,
-    Logout,
-    Trade,
-    Bag
-} from "../../pages";
+import PAGE from "../../pages";
 
 // Styles
 import styles from "./App.module.scss";
@@ -50,31 +39,31 @@ function App() {
             <div className={styles.body__container}>
             <div className={styles.body__row}>
                 <Routes>
-                    {/* <Route path="/" element={<Main />} /> */}
-                    <Route path={ paths.createItem } element={
+                    <Route path={ PATHS.main } element={ <PAGE.Menu /> } />
+                    <Route path={ `${PATHS.adminPanell}/${PATHS.createItem}` } element={
                         <RequirePermission role="ADMINISTRATOR">
-                            <CreateItem />
+                            <PAGE.CreateItem />
                         </RequirePermission>
                     } />
-                    <Route path={ paths.itemList } element={
+                    <Route path={ PATHS.adminPanell } element={
                         <RequirePermission role="ADMINISTRATOR">
-                            <ItemList />
+                            <PAGE.ItemList />
                         </RequirePermission>
                     } />
-                    <Route path={ `${paths.itemList}/:id` } element={
+                    <Route path={ `${PATHS.adminPanell}/:id` } element={
                         <RequirePermission role="ADMINISTRATOR">
-                            <ItemDetail />
+                            <PAGE.ItemDetail />
                         </RequirePermission>
                     } />
-                    <Route path={ paths.authentication } element={<Authentication />} >
-                        <Route path={ paths.registration } element={<Registration />} />
-                        <Route path={ paths.login } element={<Login />} />
-                        <Route path={ paths.logout } element={<Logout />} />
+                    <Route path={ PATHS.authentication } element={<PAGE.Authentication />} >
+                        <Route path={ PATHS.registration } element={<PAGE.Registration />} />
+                        <Route path={ PATHS.login } element={<PAGE.Login />} />
+                        <Route path={ PATHS.logout } element={<PAGE.Logout />} />
                     </Route>
 
-                    <Route path={ paths.main } element={<Trade />} />
-                    <Route path="bag" element={<Bag />} />
-                    <Route path="*" element={<NotFound />} />
+                    <Route path={ PATHS.game } element={<PAGE.Trade />} />
+                    <Route path={ `${PATHS.game}/${PATHS.bag}` } element={<PAGE.Bag />} />
+                    <Route path="*" element={<PAGE.NotFound />} />
                 </Routes>
             </div>
             </div>

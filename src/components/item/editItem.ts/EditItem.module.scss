@@ -1,4 +1,5 @@
-@import "../../shared/styles/colors.scss";
+@import "../../../shared/styles/colors.scss";
+@import "../../../shared/styles/fonts.scss";
 
 .item {
     width: 100%;
@@ -19,18 +20,13 @@
         align-items: center;
         }
     }
-    &.active {
-        background-color: $ligth-main-color;
-    }
     .item__title {
         width: 100%;
         padding: .2rem 0;
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 1.2rem;
-        font-weight: 600;
-        color: $text-color;
+        @include item-font;
         background-color: $acsent-color;
     }
     .item__img {
@@ -48,12 +44,10 @@
     .item__price {
         margin-left: auto;
         padding: .2rem;
-        font-size: .8rem;
-        font-weight: 600;
-        color: $text-color;
+        @include default-font;
         background-color: $acsent-color;
         i {
-            margin-right: .2rem;
+            margin-right: .5rem;
         }
     }
     .item__action {

@@ -1,57 +1,12 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { fetchAllItems, itemDelete } from "../../store/reducers/adminePanel/ActionCreators";
+import { fetchAllItems } from "../../store/reducers/adminePanel/ActionCreators";
+import PATHS from "../../const/link";
 
 // Component
-import { List, Item, Button } from "../../components";
-
-// Styles
-import styles from "./ItemList.module.scss";
-
-// Types
-import { IItem } from "../../interface/tradeMatch";
-
-interface propsTradeItem {
-  	item: IItem;
-}
-
-const TradeItem = (props: propsTradeItem) => {
-	const { item } = props;
-	const dispatch = useAppDispatch();
-	let navigate = useNavigate();
-
-	return (
-		<div className={styles.item}>
-			<div className={styles.item__title}>{item.title}</div>
-			<div className={styles.item__img}>
-				{item.imgUrl && <img src={item.imgUrl} alt={item.title} />}
-			</div>
-			<div className={styles.item__price}>
-				<i className="fa-solid fa-coins" />
-				{item.price}
-			</div>
-			<div className={styles.item__action}>
-				<Button
-					typeButton="ACSENT_BUTTON"
-					size={"SMALL"}
-					onClick={() => {
-						navigate(`${item.id}`, { state: { ...item } });
-					}}
-				>
-					<i className="fa-solid fa-pen-to-square"/>
-				</Button>
-				<Button
-					typeButton="ACSENT_BUTTON"
-					size={"SMALL"}
-					onClick={ () => dispatch(itemDelete(item)) }
-				>
-					<i className="fa-solid fa-trash-can"/>
-				</Button>
-			</div>
-		</div>
-	);
-};
+import { List, ListItem, EditItem, LinkItem } from "../../components";
+import { isItem } from "../../utils/objIsType";
 
 const ItemList = () => {
 	const { items } = useAppSelector(state => state.adminPanelReducer);
@@ -64,17 +19,22 @@ const ItemList = () => {
 		<div>
 			{items && (
 				<List
-					items={items}
-					renderItem={(item) => (
-						<Item 
-							content={<TradeItem item={item} />} 
-							key={item.id} 
-						/>
+					items={ [{}, ...items] }
+					renderItem={(item, index) => (
+						<ListItem key={ index } >
+							{ isItem(item, ["id"])
+								? <EditItem item={ item } />
+								: <LinkItem link={ PATHS.createItem }>
+									<i className="fa-solid fa-file-circle-plus"/>
+								</LinkItem>
+							}
+						</ListItem>
 					)}
 				/>
 			)}
 		</div>
 	);
 };
+
 
 export default ItemList;

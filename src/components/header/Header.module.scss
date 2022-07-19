@@ -15,15 +15,18 @@
 		height: 100%;
 		@include logo-font;
 		text-decoration: none;
+		flex-basis: 33.3%;
 	}
 	.header__left {
 		display: flex;
 		align-items: center;
+		flex-basis: 33.3%;
 	}
 	.header__right {
 		display: flex;
 		justify-content: flex-end;
 		align-items: center;
+		flex-basis: 33.3%;
 		button {
 			margin-right: .5rem;
 		}
@@ -35,6 +38,7 @@
 	.game-state__element {
 		display: flex;
 		align-items: center;
+		text-decoration: none;
 		&:not(:first-child) {
 			margin-left: .5rem;
 		}
@@ -59,6 +63,16 @@
 			.game-state__icon {
 				&._bag {
 					animation: bag-icon-active  400ms ease;
+				}
+			}
+		}
+		&._link:hover,
+		&._link:focus {
+			color: $acsent-color;
+			.game-state__icon {
+				transform: scale(1.1);
+				&._bag {
+					background-image: url("./icon/bag_active.png");
 				}
 			}
 		}

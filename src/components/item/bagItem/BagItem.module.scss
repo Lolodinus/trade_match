@@ -1,0 +1,69 @@
+@import "../../../shared/styles/colors.scss";
+
+
+.item {
+    width: 100%;
+    height: 100%;
+    border: .2rem dashed $second-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: $main-color;
+    overflow: hidden;
+    &:hover,
+    &:focus {
+        position: relative;
+        .item__action {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        }
+    }
+    &.active {
+        background-color: $ligth-main-color;
+    }
+    .item__title {
+        width: 100%;
+        padding: .2rem 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: $text-color;
+        background-color: $acsent-color;
+    }
+    .item__img {
+        width: 100%;
+        min-height: 0;
+        padding: .5rem;
+        flex-grow: 1;
+        img {
+        display: block;
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+        }
+    }
+    .item__price {
+        margin-left: auto;
+        padding: .2rem;
+        font-size: .8rem;
+        font-weight: 600;
+        color: $text-color;
+        background-color: $acsent-color;
+        i {
+            margin-right: .2rem;
+        }
+    }
+    .item__action {
+        width: 100%;
+        height: 100%;
+        display: none;
+        position: absolute;
+        left: 0;
+        top: 0;
+        background-color: rgba(black, .7);
+    }
+}
