@@ -3,8 +3,8 @@ interface IFirestorModelItem {
   price: number;
   imgUrl?: string;
   type: string;
-  child?: IFirestorModelItem;
-  parent?: IFirestorModelItem;
+  child?: string;
+  parent?: string;
   random: {
     0: number,
     1: number,
@@ -17,8 +17,8 @@ interface IFirestorUpdateModelItem {
   price?: number;
   imgUrl?: string;
   type?: string;
-  child?: IFirestorModelItem;
-  parent?: IFirestorModelItem;
+  child?: string;
+  parent?: string;
   random?: {
     0: number,
     1: number,

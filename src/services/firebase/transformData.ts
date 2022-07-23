@@ -28,6 +28,8 @@ function transformDataToItem(data: any[]): IItem[] {
 				type: item.type
 			};
 			if (item.imgUrl) transformItem.imgUrl = item.imgUrl;
+			if (item.child) transformItem.child = item.child;
+			if (item.parent) transformItem.parent = item.parent;
 			items.push(transformItem);
 		}
 	}

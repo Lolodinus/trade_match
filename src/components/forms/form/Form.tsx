@@ -1,7 +1,7 @@
 import React from "react";
 
 // Components
-import { Button } from "../";
+import { Button } from "../..";
 
 // Styles
 import styles from "./Form.module.scss";

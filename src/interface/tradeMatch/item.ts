@@ -7,8 +7,8 @@ interface IItemBase {
 
 interface IItem extends IItemBase {
   readonly id: string;
-  child?: IItemBase;
-  parent?: IItemBase;
+  child?: string;
+  parent?: string;
 }
 
 export { IItemBase, IItem };
