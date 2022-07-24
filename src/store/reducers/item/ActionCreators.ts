@@ -1,10 +1,10 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import { firestoreDb } from "../../../services/firebase";
 import { transformDataToItem } from "../../../services/firebase/transformData";
+import { getRandomNumber } from "../../../utils/getRandomNumber";
 
 // Type
 import { IItem } from "../../../interface/tradeMatch";
-import { getRandomNumber } from "../../../utils/getRandomNumber";
 
 
 export const fetchItems = createAsyncThunk(

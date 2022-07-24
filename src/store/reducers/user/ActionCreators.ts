@@ -1,10 +1,10 @@
 import { AppDispatch } from "../../store";
 import { userSlice } from "./UserReducer";
 import firebaseAuth from "../../../services/firebase/firebaseAuth";
+import { isError } from "../../../utils/objIsType";
 
 // Type
 import { IFirebaseModelCreateUser, IFirebaseModelSingIn } from "../../../interface/firestoreModel/IFirebaseModelUser";
-import { isError } from "../../../utils/objIsType";
 
 
 export const regisrtation = (userData: IFirebaseModelCreateUser) => async (dispatch: AppDispatch) => {

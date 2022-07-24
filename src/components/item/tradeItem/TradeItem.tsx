@@ -10,11 +10,11 @@ import { Button } from "../../";
 import styles from "./TradeItem.module.scss";
 
 // Types
-import { IItem } from "../../../interface/tradeMatch";
+import { ITraderItem } from "../../../interface/tradeMatch";
 
 
 interface ITradeItemProps {
-	item: IItem;
+	item: ITraderItem;
 }
 
 const TradeItem = (props: ITradeItemProps) => {
@@ -31,7 +31,7 @@ const TradeItem = (props: ITradeItemProps) => {
 			</div>
 			<div className={styles.item__price}>
 				<i className="fa-solid fa-coins" />
-				{item.price}
+				{item.traderPrice}
 			</div>
 			<div className={styles.item__action}>
 				<Button
@@ -39,7 +39,7 @@ const TradeItem = (props: ITradeItemProps) => {
 					size={"SMALL"}
 					onClick={() => {
 						if (item.price > money || itemCells.length >= maxBagItem ) return;
-						dispatch(spendMoney(item.price));
+						dispatch(spendMoney(item.traderPrice));
 						dispatch(itemAdd({item, maxCells: maxBagItem}));
 					}}
 				>

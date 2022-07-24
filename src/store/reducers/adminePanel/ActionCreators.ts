@@ -4,10 +4,10 @@ import { adminePanelSlice } from "./AdminPanelReducer";
 import { firestoreDb } from "../../../services/firebase";
 import { transformDataToItem } from "../../../services/firebase/transformData";
 import TradeMatchItem from "../../../services/TradeMatch/TradeMatchItem";
+import { isError } from "../../../utils/objIsType";
 
 // Type
 import { IItem } from "../../../interface/tradeMatch";
-import { isError } from "../../../utils/objIsType";
 
 
 const tradeItem = new TradeMatchItem("item/");

@@ -26,10 +26,10 @@ const Header = (): JSX.Element => {
 
 	useEffect(()=> {
 		setBagItemActive(true)
-	}, [itemCells.length, ])
+	}, [itemCells.length])
 
 	return (
-		<div className={styles.header}>
+		<div className={ styles.header }>
 			<div className={ `${styles.header__left} ${styles["game-state"]}` }>
 				{ thisIsGame && 
 					<>
@@ -66,7 +66,7 @@ const Header = (): JSX.Element => {
 					</>
 				}
 			</div>
-				<Link to="/" className={styles.header__center}>Trade</Link>
+				<Link to={ PATHS.main } className={ styles.header__center }>Trade</Link>
 			<div className={ `${styles.header__right} ${styles["game-state"]}` }>
 				{ thisIsGame && 
 					<CSSTransition

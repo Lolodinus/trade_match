@@ -1,4 +1,5 @@
 @import "../../../shared/styles/colors.scss";
+@import "../../../shared/styles/fonts.scss";
 
 
 .item {
@@ -29,9 +30,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 1.2rem;
-        font-weight: 600;
-        color: $text-color;
+        @include default-font;
         background-color: $acsent-color;
     }
     .item__img {
@@ -44,17 +43,6 @@
         height: 100%;
         width: 100%;
         object-fit: contain;
-        }
-    }
-    .item__price {
-        margin-left: auto;
-        padding: .2rem;
-        font-size: .8rem;
-        font-weight: 600;
-        color: $text-color;
-        background-color: $acsent-color;
-        i {
-            margin-right: .2rem;
         }
     }
     .item__action {

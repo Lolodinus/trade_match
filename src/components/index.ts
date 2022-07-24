@@ -1,6 +1,6 @@
 import List from "./list";
 import { ListItem, BagItem, TradeItem, EditItem, LinkItem } from "./item";
-import { SelectItem, SelectType } from "./selects";
+import { Select, SelectItem, SelectType } from "./selects";
 import { Form, UpdateItemForm, CreateItemForm } from "./forms";
 import DraggableElement from "./draggableElement";
 import Header from "./header";
@@ -23,6 +23,7 @@ export {
   EditItem,
   LinkItem,
   // custom element
+  Select,
   SelectItem,
   SelectType,
   UploadImage,

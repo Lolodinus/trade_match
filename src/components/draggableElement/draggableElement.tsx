@@ -60,7 +60,7 @@ const DraggableElement = (props: IDraggbleElement): JSX.Element => {
         e.preventDefault();
         if(cellId === currentCell?.cellId) return;
         if(!itemId || currentCell?.itemId !== itemId) return move(cellId, currentCell?.cellId);
-        match();
+        match(currentCell.cellId, cellId);
         setActive(undefined);
     };
 

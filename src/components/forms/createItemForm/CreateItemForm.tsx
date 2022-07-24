@@ -81,8 +81,8 @@ const CreateItemForm = () => {
 							message: "Min length 3"
 							},
 							maxLength: {
-							value: 12,
-							message: "Max length 12"
+							value: 20,
+							message: "Max length 20"
 							}
 						})}
 						/>

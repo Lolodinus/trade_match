@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { swapCell } from "../../store/reducers/bag/BagReducer";
+import { itemSwap } from "../../store/reducers/bag/BagReducer";
+import { itemMatch } from "../../store/reducers/bag/ActionCreators";
 
 // Components
 import { List, ListItem, BagItem, DraggableElement, GamePage } from "../../components";
@@ -50,14 +51,16 @@ const Bag = () => {
                                 currentCell={ currentCell }
                                 setCurrentCellId={ setCurrentCell }
                                 setActive={ setActiveCell }
-                                move={(dropCell: number, dragCell?: number, ) => {
-                                    if(dragCell === undefined) return;
-                                    dispatch(swapCell({
-                                        dragItemCellId: dragCell, 
-                                        dropItemCellId: dropCell
+                                move={(dropCellId: number, dragCellId?: number) => {
+                                    if(dragCellId === undefined) return;
+                                    dispatch(itemSwap({
+                                        dragItemCellId: dragCellId, 
+                                        dropItemCellId: dropCellId
                                     }));
                                 }}
-                                match={() => { console.log("match") }}
+                                match={ (dragCellId: number, dropCellId: number) => {
+                                    dispatch(itemMatch(cells, dragCellId, dropCellId))
+                                } }
                             >
                                 <BagItem item={ item.item } active={ item.cellId === activeCell ? true : false } />
                             </DraggableElement>
