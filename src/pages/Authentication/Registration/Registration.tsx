@@ -4,6 +4,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { useAppDispatch } from "../../../hooks/redux";
+import { sendNotification } from "../../../store/reducers/notification/ActionCreators";
 import { regisrtation } from "../../../store/reducers/user/ActionCreators";
 import { isError } from "../../../utils/objIsType";
 import { firebaseError } from "../../../services/firebase";
@@ -51,11 +52,12 @@ const Registration = () => {
                 email: data.email
             }));
             navigate(PATHS.main);
+            dispatch(sendNotification("You are registered", "SUCCESS"));
         } catch (error) {
             if (isError(error)) {
-                console.log(error.message)
                 firebaseError.firebaseCreateUserError(error.message, setAuthError);
             }
+            dispatch(sendNotification("Error. Failed to registration.", "FAIL"));
         }
     }
 

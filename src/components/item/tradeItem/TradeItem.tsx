@@ -1,4 +1,6 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCoins } from '@fortawesome/free-solid-svg-icons';
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { spendMoney, getMoney, removeItem } from "../../../store/reducers/game/GameReducer";
 import { itemAdd } from "../../../store/reducers/bag/BagReducer";
@@ -11,6 +13,7 @@ import styles from "./TradeItem.module.scss";
 
 // Types
 import { ITraderItem } from "../../../interface/tradeMatch";
+import { sendNotification } from "../../../store/reducers/notification/ActionCreators";
 
 
 interface ITradeItemProps {
@@ -30,7 +33,7 @@ const TradeItem = (props: ITradeItemProps) => {
 				{item.imgUrl && <img src={item.imgUrl} alt={item.title} />}
 			</div>
 			<div className={styles.item__price}>
-				<i className="fa-solid fa-coins" />
+				<FontAwesomeIcon icon={ faCoins } className={ styles.item__icon }/>
 				{item.traderPrice}
 			</div>
 			<div className={styles.item__action}>
@@ -38,7 +41,15 @@ const TradeItem = (props: ITradeItemProps) => {
 					typeButton="ACSENT_BUTTON"
 					size={"SMALL"}
 					onClick={() => {
-						if (item.price > money || itemCells.length >= maxBagItem ) return;
+						if (item.price > money || itemCells.length >= maxBagItem ) {
+							if( item.price > money ) {
+								dispatch(sendNotification("Not enough money", "INFO"))
+							};
+							if( itemCells.length >= maxBagItem ) {
+								dispatch(sendNotification("There is no space in the bag", "INFO"))
+							};
+							return;
+						};
 						dispatch(spendMoney(item.traderPrice));
 						dispatch(itemAdd({item, maxCells: maxBagItem}));
 					}}
@@ -48,11 +59,6 @@ const TradeItem = (props: ITradeItemProps) => {
 				<Button
 					typeButton="ACSENT_BUTTON"
 					size={"SMALL"}
-					onClick={ () => {
-						if (bagItem === 0 ) return;
-						dispatch(getMoney(item.price));
-						dispatch(removeItem());
-					} }
 				>
 					sell
 				</Button>

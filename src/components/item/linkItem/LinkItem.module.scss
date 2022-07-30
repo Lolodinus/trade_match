@@ -1,4 +1,6 @@
 @import "../../../shared/styles/colors.scss";
+@import "../../../shared/styles/fonts.scss";
+
 
 .link {
     position: absolute;
@@ -11,9 +13,5 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: $text-color;
     text-decoration: none;
-    i {
-        font-size: 3rem;
-    }
 } 

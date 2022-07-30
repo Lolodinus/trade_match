@@ -5,6 +5,7 @@ import { Form, UpdateItemForm, CreateItemForm } from "./forms";
 import DraggableElement from "./draggableElement";
 import Header from "./header";
 import Button from "./button";
+import { NotivicationProvider } from "./notifications";
 import UploadImage from "./uploadImage";
 import GamePage from "./gamePage";
 import GamePanel from "./gamePanel";
@@ -14,6 +15,7 @@ export {
   Button,
   List,
   DraggableElement,
+  NotivicationProvider,
   GamePage,
   GamePanel,
   // items

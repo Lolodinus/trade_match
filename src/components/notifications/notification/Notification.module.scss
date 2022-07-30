@@ -1,0 +1,85 @@
+@import "../../../shared//styles/colors.scss";
+@import "../../../shared//styles/fonts.scss";
+
+.notification {
+    @include default-font;
+    position: relative;
+    overflow: hidden;
+    &.show {
+        animation: slide-left forwards 400ms ease-in;
+    }
+    &.hide {
+        animation: slide-right forwards 400ms ease-out;
+    }
+    &.info {
+        background-color: $main-color;
+    }
+    &.success {
+        background-color: $success-color;
+    }
+    &.fail {
+        background-color: $fail-color;
+    }
+    &:not(:first-child) {
+        margin-top: .5rem;
+    }
+    .notification__wrapper {
+        display: flex;
+        align-items: center;
+        margin: 0 -.5rem;
+        .notification__icon {
+            padding: 0 .5rem;
+        }
+        .notification__text {
+            padding: 0 .5rem;
+        }
+    }
+    .notification__bar {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba($color: $text-color, $alpha: .2)
+    }
+}
+
+@keyframes slide-left {	
+	0% {
+        height: 0;
+		opacity: 0;
+        transform: translateX(120%);
+	}	
+	25% {
+        height: auto;
+	}
+	50% {
+		opacity: 1;
+        transform: translateX(50%);
+	}
+	100% {
+        border: .2rem dashed $text-color;
+        padding: .5rem;
+        transform: translateX(0);
+	}
+}
+
+@keyframes slide-right {	
+	0% {
+        border: .2rem dashed $text-color;
+        padding: .5rem;
+		opacity: 1;
+        transform: translateX(0%);
+	}	
+	25% {
+        height: 0;
+        border: 0;
+        padding: 0;
+	}
+	50% {
+		opacity: 0;
+        transform: translateX(50%);
+	}
+	100% {
+        transform: translateX(120%);
+	}
+}

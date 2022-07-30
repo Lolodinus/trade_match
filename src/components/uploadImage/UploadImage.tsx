@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark, faTrashCan, faSquarePlus } from '@fortawesome/free-solid-svg-icons';
 import { fileValidation } from "../../utils/validation";
 
 // Components
@@ -113,7 +115,7 @@ const UploadImage = (props: IUploadImageProps) => {
 							type="button"
 							onClick={resetPreview}
 						>
-							<i className="fa-solid fa-xmark" />
+							<FontAwesomeIcon icon={ faXmark } />
 						</Button>
 					}
 					{(itemImage && !preview) && (
@@ -123,7 +125,7 @@ const UploadImage = (props: IUploadImageProps) => {
 							type="button"
 							onClick={deleteImageFile}
 						>
-							<i className="fa-solid fa-trash-can" />
+							<FontAwesomeIcon icon={ faTrashCan } />
 						</Button>
 					)}
 				</div>
@@ -150,7 +152,7 @@ const UploadImage = (props: IUploadImageProps) => {
 				>
 					<div>
 						<span className={ styles["uploader__button-icon"] }>
-							<i className="fa-solid fa-square-plus"/>
+							<FontAwesomeIcon icon={ faSquarePlus } />
 						</span>
 						<p className={ styles["uploader__button-description"] }>
 							Upload image

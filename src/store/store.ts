@@ -4,13 +4,15 @@ import itemReducer from "./reducers/item/itemReducer";
 import userReducer from "./reducers/user/UserReducer";
 import gameReducer from "./reducers/game/GameReducer";
 import bagReducer from "./reducers/bag/BagReducer";
+import notificationReducer from "./reducers/notification/NotificationReducer";
 
 const rootReducer = combineReducers({
     adminPanelReducer, 
     itemReducer, 
     userReducer, 
     gameReducer,
-    bagReducer
+    bagReducer,
+    notificationReducer
 });
 
 export const setupStore = () => {

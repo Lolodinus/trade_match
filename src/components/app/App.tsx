@@ -8,7 +8,7 @@ import PATHS from "../../const/link";
 import { RequirePermission } from "../../hoc";
 
 // Component
-import { Header } from "../";
+import { Header, NotivicationProvider } from "../";
 
 // Page
 import PAGE from "../../pages";
@@ -17,7 +17,7 @@ import PAGE from "../../pages";
 import styles from "./App.module.scss";
 
 function App() {
-    const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         dispatch(authentication())
@@ -38,6 +38,9 @@ function App() {
         <div className={`${styles.app__body} ${styles.body}`}>
             <div className={styles.body__container}>
             <div className={styles.body__row}>
+                <div className={ styles.body__notification }>
+                    <NotivicationProvider />
+                </div>
                 <Routes>
                     <Route path={ PATHS.main } element={ <PAGE.Menu /> } />
                     <Route path={ `${PATHS.adminPanell}/${PATHS.createItem}` } element={

@@ -7,16 +7,23 @@ import { Button } from "../";
 
 // Styles
 import styles from "./GamePanel.module.scss";
+import { sendNotification } from "../../store/reducers/notification/ActionCreators";
 
 
 const GamePanel = () => {
-	const { money } = useAppSelector(state => state.gameReducer);
+	const { money, day } = useAppSelector(state => state.gameReducer);
     const dispatch = useAppDispatch();
 
     const endDay = () => {
         if (money < 0) return;
         dispatch(nextDay());
         dispatch(spendMoney(10));
+        dispatch(
+            sendNotification(
+                `${ day + 1 } day. It's a brand new day`,
+                "INFO"
+            )
+        );
     }
 
     return (

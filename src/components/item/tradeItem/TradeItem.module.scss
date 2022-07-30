@@ -47,9 +47,6 @@
         padding: .2rem;
         @include default-font;
         background-color: $acsent-color;
-        i {
-            margin-right: .5rem;
-        }
     }
     .item__action {
         width: 100%;
@@ -59,5 +56,8 @@
         left: 0;
         top: 0;
         background-color: rgba(black, .7);
+    }
+    .item__icon {
+        margin-right: .5rem;
     }
 }

@@ -13,6 +13,9 @@ import {
 	IFirestorUpdateModelItem
 } from "../../../interface/firestoreModel";
 import { IOption } from "../../../interface/components";
+import { isError } from "../../../utils/objIsType";
+import { useAppDispatch } from "../../../hooks/redux";
+import { sendNotification } from "../../../store/reducers/notification/ActionCreators";
 
 type Inputs = {
 	title: string;
@@ -38,30 +41,45 @@ const CreateItemForm = () => {
 	const selectChildItemName: keyof Inputs = "childItem";
 	const selectParentItemName: keyof Inputs = "parentItem";
 	const imageInputName: keyof Inputs = "image";
-
+	
+	const dispatch = useAppDispatch();
 	const tradeMatch = new TradeMatchItem("item/");
 
 	const onSubmit = async (data: Inputs) => {
-
-		let item: IFirestorModelItem = {
-			title: data.title,
-			price: +data.price,
-			type: data.type?.id,
-			random: {
-				0: getRandomNumber(1000),
-				1: getRandomNumber(1000),
-				2: getRandomNumber(1000)
-			}
-		};
-		
-		if (data.childItem) item = { ...item, child: data.childItem.id };
-		if (data.parentItem) item = { ...item, parent: data.parentItem.id };
-		tradeMatch.createItem<IFirestorModelItem, IFirestorUpdateModelItem>(
-		item,
-		data.image?.file,
-		{}
-		);
-		reset();
+		try {
+			let item: IFirestorModelItem = {
+				title: data.title,
+				price: +data.price,
+				type: data.type?.id,
+				random: {
+					0: getRandomNumber(1000),
+					1: getRandomNumber(1000),
+					2: getRandomNumber(1000)
+				}
+			};
+			
+			if (data.childItem) item = { ...item, child: data.childItem.id };
+			if (data.parentItem) item = { ...item, parent: data.parentItem.id };
+			tradeMatch.createItem<IFirestorModelItem, IFirestorUpdateModelItem>(
+			item,
+			data.image?.file,
+			{}
+			);
+			reset();
+			dispatch(
+				sendNotification(
+					"Item created", 
+					"SUCCESS"
+				)
+			);
+		} catch (error) {
+			dispatch(
+				sendNotification(
+					"Error. Failed to create item.", 
+					"FAIL"
+				)
+			);
+		}
 	};
 
 	return (

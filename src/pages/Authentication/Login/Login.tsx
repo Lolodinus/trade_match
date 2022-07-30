@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
+import { sendNotification } from "../../../store/reducers/notification/ActionCreators";
 import { useAppDispatch } from "../../../hooks/redux";
 import { login } from "../../../store/reducers/user/ActionCreators";
 import { firebaseError } from "../../../services/firebase";
@@ -49,10 +50,12 @@ const Login = () => {
                 email: data.email
             }));
             navigate(PATHS.main);
+            dispatch(sendNotification("You are logged in", "SUCCESS"));
         } catch (error) {
             if (isError(error)) {
                 firebaseError.firebaseSingInError(error.message, setAuthError);
             };
+            dispatch(sendNotification("Error. Failed to login.", "FAIL"));
         };
     }
 

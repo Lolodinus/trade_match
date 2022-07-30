@@ -1,6 +1,9 @@
 import React from "react";
 import { useAppDispatch } from "../../../hooks/redux";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCoins, faPenToSquare, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { sendNotification } from "../../../store/reducers/notification/ActionCreators";
 import { itemDelete } from "../../../store/reducers/adminePanel/ActionCreators";
 
 // Components
@@ -28,7 +31,7 @@ const EditItem = (props: IEditItemProps) => {
 				{item.imgUrl && <img src={item.imgUrl} alt={item.title} />}
 			</div>
 			<div className={styles.item__price}>
-				<i className="fa-solid fa-coins" />
+				<FontAwesomeIcon icon={ faCoins } className={ styles.item__icon }/>
 				{item.price}
 			</div>
 			<div className={styles.item__action}>
@@ -39,14 +42,21 @@ const EditItem = (props: IEditItemProps) => {
 						navigate(`${item.id}`, { state: { ...item } });
 					}}
 				>
-					<i className="fa-solid fa-pen-to-square"/>
+					<FontAwesomeIcon icon={ faPenToSquare } />
 				</Button>
 				<Button
 					typeButton="ACSENT_BUTTON"
 					size={"SMALL"}
-					onClick={ () => dispatch(itemDelete(item)) }
+					onClick={ async () => {
+						try {
+							await dispatch(itemDelete(item));
+							dispatch(sendNotification("Item deleted", "SUCCESS"));
+						} catch (error) {
+							dispatch(sendNotification("Error. Failed to delete item.", "FAIL"));
+						}
+					} }
 				>
-					<i className="fa-solid fa-trash-can"/>
+					<FontAwesomeIcon icon={ faTrashCan } />
 				</Button>
 			</div>
 		</div>

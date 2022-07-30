@@ -4,7 +4,7 @@ import React, { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
 import styles from "./Button.module.scss";
 
 // Types
-type ButtonType = "ACSENT_BUTTON";
+type ButtonType = "ACSENT_BUTTON" | "TRANSPARENT_BUTTON";
 type ButtonSize = "SMALL" | "MEDIUM"| "LARGE" | "WIDE" | "MAX";
 interface IButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<
 	HTMLButtonElement>,HTMLButtonElement> {
@@ -20,6 +20,9 @@ const Button = (props: IButtonProps) => {
 		switch (typeButton) {
 			case "ACSENT_BUTTON": {
 				return styles.acsent;
+			}
+			case "TRANSPARENT_BUTTON": {
+				return styles.transparent;
 			}
 			default: {
 				return "";

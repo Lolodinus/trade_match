@@ -11,7 +11,7 @@ interface IGameState {
 }
 
 const initialState: IGameState = {
-    money: 1000,
+    money: 200,
     day: 1,
     bagItem: 0,
     maxBagItem: 10,

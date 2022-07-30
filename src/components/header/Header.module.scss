@@ -47,6 +47,7 @@
 			display: block;
 			height: .8rem;
 			width: .8rem;
+			margin-right: .5rem;
 			background-size: contain;
 			background-position: center;
 			&._bag {
@@ -54,9 +55,6 @@
 				width: 1rem;
 				background-image: url("./icon/bag.png");
 			}
-		}
-		i {
-			margin-right: .5rem;
 		}
 		&.active {
 			animation: state-active  400ms ease;

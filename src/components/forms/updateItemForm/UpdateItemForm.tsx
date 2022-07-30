@@ -14,6 +14,8 @@ import { IItem } from "../../../interface/tradeMatch";
 import { IOption } from "../../../interface/components";
 import { IFirestorUpdateModelItem } from "../../../interface/firestoreModel";
 import { isError, isItem, isType } from "../../../utils/objIsType";
+import { useAppDispatch } from "../../../hooks/redux";
+import { sendNotification } from "../../../store/reducers/notification/ActionCreators";
 interface IUpdateItemFormProps {
   item: IItem | undefined;
 }
@@ -30,6 +32,7 @@ const UpdateItemForm = (props: IUpdateItemFormProps) => {
 	const { item } = props;
 	const tradeMatch = new TradeMatch("item/");
 	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
 
 	const {
 		register,
@@ -112,8 +115,9 @@ const UpdateItemForm = (props: IUpdateItemFormProps) => {
 				tradeMatch.upadateItem<IFirestorUpdateModelItem>(item.id, updateData);
 			}
 			navigate(`/${PATHS.adminPanell}`);
+			dispatch(sendNotification("Item updated", "SUCCESS"));
 		} catch (error) {
-			if(isError(error)) console.log(error.message);
+			dispatch(sendNotification("Error. Failed to update item.", "FAIL"));
 		}
 	};
 

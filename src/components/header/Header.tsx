@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation, NavLink } from "react-router-dom";
 import { useAppSelector } from "../../hooks/redux";
 import { CSSTransition } from 'react-transition-group';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCoins, faSun } from '@fortawesome/free-solid-svg-icons';
 import PATHS from "../../const/link";
 
 // Styles
@@ -44,7 +46,7 @@ const Header = (): JSX.Element => {
 							}}
 						>
 								<div className={ styles["game-state__element"] }>
-									<i className="fa-solid fa-coins" />
+									<FontAwesomeIcon icon={ faCoins } className={ styles["game-state__icon"] } />
 									{ money }
 								</div>
 						</CSSTransition>
@@ -59,7 +61,7 @@ const Header = (): JSX.Element => {
 							}}
 						>
 								<div className={ styles["game-state__element"] }>
-									<i className="fa-solid fa-sun"/>
+									<FontAwesomeIcon icon={ faSun } className={ styles["game-state__icon"] } />
 									{ day }
 								</div>
 						</CSSTransition>

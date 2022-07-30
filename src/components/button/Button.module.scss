@@ -2,40 +2,53 @@
 @import "../../shared/styles/fonts.scss";
 
 .button {
-  height: 1.8rem;
-  border: none;
-  padding: 0 .5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  @include default-font;
-  cursor: pointer;
+	height: 1.8rem;
+	border: none;
+	padding: 0 .5rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	@include default-font;
+	cursor: pointer;
 
-  &.acsent {
-    background-color: $acsent-color;
-    color: $text-color;
-    position: relative;
-    &:hover,
-    &:focus {
-      &::after {
-        content: "";
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        left: 0;
-        top: 0;
-        background-color: rgba(black, .3);
-      }
-    }
-    &:focus {
-      &::after {
-        outline: .2rem solid $text-color;
-      }
-    }
-    &:active {
-      transform: scale(.99);
-    }
-  }
+	&.transparent {
+		padding: 0;
+		background-color: transparent;
+		color: inherit;
+		&:hover,
+		&:focus {
+			transform: scale(1.2);
+		}
+		&:active {
+			transform: scale(1);
+		}
+	}
+
+	&.acsent {
+		background-color: $acsent-color;
+		color: $text-color;
+		position: relative;
+		&:hover,
+		&:focus {
+		&::after {
+			content: "";
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			left: 0;
+			top: 0;
+			background-color: rgba(black, .3);
+		}
+		}
+		&:focus {
+		&::after {
+			outline: .2rem solid $text-color;
+		}
+		}
+		&:active {
+			transform: scale(.99);
+		}
+	}
 }
 
 
