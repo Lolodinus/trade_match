@@ -1,9 +1,9 @@
 // Types
 import IType from "../interface/tradeMatch/type";
-import { IItem, IUser } from "../interface/tradeMatch";
+import { IItem, IUser, ITrader } from "../interface/tradeMatch";
 import { imgExtantion } from "../interface/other/other";
 
-function isType(object: any, properties: string[]): object is IType {
+function isType(object: any, properties: Array<keyof IType>): object is IType {
   for (let property of properties) {
     if (!Object.prototype.hasOwnProperty.call(object, property)) {
       return false;
@@ -12,7 +12,16 @@ function isType(object: any, properties: string[]): object is IType {
   return true;
 }
 
-function isItem(object: any, properties: string[]): object is IItem {
+function isItem(object: any, properties: Array<keyof IItem>): object is IItem {
+  for (let property of properties) {
+    if (!Object.prototype.hasOwnProperty.call(object, property)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+function isTrader(object: any, properties: Array<keyof ITrader>): object is ITrader {
   for (let property of properties) {
     if (!Object.prototype.hasOwnProperty.call(object, property)) {
       return false;
@@ -38,4 +47,8 @@ function isImgExt(ext: any): ext is imgExtantion {
 	return ext;
 }
 
-export { isType, isItem, isUser, isError, isImgExt };
+function isFile(obj: any): obj is File {
+  return obj.size !== undefined || obj.type !== undefined;
+}
+
+export { isType, isItem, isTrader, isUser, isError, isImgExt, isFile };

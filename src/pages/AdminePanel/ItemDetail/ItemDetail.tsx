@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
-import TradeMatch from "../../services/TradeMatch/TradeMatchItem";
-import { isItem, isError } from "../../utils/objIsType";
+import TradeMatch from "../../../services/TradeMatch/TradeMatchItem";
+import { isItem, isError } from "../../../utils/objIsType";
 
 // Components
-import { UpdateItemForm } from "../../components";
+import { UpdateItemForm } from "../../../components";
 
 // Styles
 import styles from "./ItemDetail.module.scss";
 
 // Types
-import { IItem } from "../../interface/tradeMatch";
+import { IItem } from "../../../interface/tradeMatch";
 
 const ItemDetail = () => {
 	const [item, setItem] = useState<IItem | undefined>();
@@ -28,8 +28,8 @@ const ItemDetail = () => {
 		if (!id) return navigate("not_found");
 			tradeMatch.getItemById(id)
 			.then((item) => {
-				if (isError(item)) throw new Error(item.message); 
-				setItem(item);
+				if (isError(item)) throw new Error(item.message);
+				if(isItem(item, ["id", "title", "price", "type"])) setItem(item);
 			})
 			.catch(error => {
 				navigate("/not_found");

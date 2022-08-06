@@ -8,7 +8,7 @@ import PATHS from "../../const/link";
 import { RequirePermission } from "../../hoc";
 
 // Component
-import { Header, NotivicationProvider } from "../";
+import { Header, NotificationProvider } from "../";
 
 // Page
 import PAGE from "../../pages";
@@ -39,33 +39,38 @@ function App() {
             <div className={styles.body__container}>
             <div className={styles.body__row}>
                 <div className={ styles.body__notification }>
-                    <NotivicationProvider />
+                    <NotificationProvider />
                 </div>
                 <Routes>
                     <Route path={ PATHS.main } element={ <PAGE.Menu /> } />
-                    <Route path={ `${PATHS.adminPanell}/${PATHS.createItem}` } element={
-                        <RequirePermission role="ADMINISTRATOR">
-                            <PAGE.CreateItem />
-                        </RequirePermission>
-                    } />
-                    <Route path={ PATHS.adminPanell } element={
-                        <RequirePermission role="ADMINISTRATOR">
-                            <PAGE.ItemList />
-                        </RequirePermission>
-                    } />
-                    <Route path={ `${PATHS.adminPanell}/:id` } element={
-                        <RequirePermission role="ADMINISTRATOR">
-                            <PAGE.ItemDetail />
-                        </RequirePermission>
-                    } />
+                    {/* Admine Panel */}
+                    <Route 
+                        path={ PATHS.adminPanell } 
+                        element={
+                            <RequirePermission role="ADMINISTRATOR">
+                                <PAGE.AdminePanel /> 
+                            </RequirePermission>
+                        }
+                    >
+                        <Route path={ PATHS.itemList } element={ <PAGE.ItemList /> } />
+                        <Route path={ `${PATHS.itemList}/:id` } element={<PAGE.ItemDetail /> } />
+                        <Route path={ `${PATHS.itemList}/${PATHS.createItem}` } element={ <PAGE.ItemCreate /> }/>
+                        <Route path={ PATHS.traderList } element={ <PAGE.TraderList /> } />
+                        <Route path={ `${PATHS.traderList}/${PATHS.createTrader}` } element={<PAGE.TraderCreate />} />
+                        <Route path={ `${PATHS.traderList}/:id` } element={<PAGE.TraderDetail /> } />
+                    </Route>
+                    {/* Authentication */}
                     <Route path={ PATHS.authentication } element={<PAGE.Authentication />} >
                         <Route path={ PATHS.registration } element={<PAGE.Registration />} />
                         <Route path={ PATHS.login } element={<PAGE.Login />} />
                         <Route path={ PATHS.logout } element={<PAGE.Logout />} />
                     </Route>
-
-                    <Route path={ PATHS.game } element={<PAGE.Trade />} />
-                    <Route path={ `${PATHS.game}/${PATHS.bag}` } element={<PAGE.Bag />} />
+                    {/* Game */}
+                    <Route path={ PATHS.game } element={ <PAGE.Game/> }>
+                        <Route path={ PATHS.trade } element={<PAGE.Trade />} />
+                        <Route path={ PATHS.bag } element={<PAGE.Bag />} />
+                    </Route>
+                    
                     <Route path="*" element={<PAGE.NotFound />} />
                 </Routes>
             </div>

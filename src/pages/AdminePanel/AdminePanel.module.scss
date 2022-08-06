@@ -1,0 +1,60 @@
+@import "../../shared/styles/colors.scss";
+@import "../../shared/styles/fonts.scss";
+
+
+.panel {
+    width: 100%;
+    height: 100%;
+    padding: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    .panel__title {
+        margin: 0;
+        border: .2rem dashed $text-color;
+        padding: .5rem;
+        @include title-font;
+        text-align: center;
+        background-color: $acsent-color;
+    }
+    .panel__wrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        .panel__naw {
+            padding: 1rem 0;
+            display: flex;
+            .panel__link {
+                border: .2rem dashed $text-color;
+                padding: .5rem;
+                flex-grow: 1;
+                @include item-font;
+                text-align: center;
+                background-color: $main-color;
+                text-decoration: none;
+                cursor: pointer;
+
+                &:hover,
+                &:focus {
+                    background-color: $ligth-main-color;
+                };
+                &:active {
+                    background-color: $main-color;
+                }
+                &.active {
+                    background-color: $ligth-main-color;
+                    &:hover,
+                    &:focus {
+                        background-color:  $main-color;
+                    };
+                    &:active {
+                        background-color: $ligth-main-color;
+                    }
+                }
+            }
+        }
+        .panel__content {
+            flex-grow: 1;
+        }
+    }
+}

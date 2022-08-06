@@ -1,13 +1,18 @@
 import List from "./list";
-import { ListItem, BagItem, TradeItem, EditItem, LinkItem } from "./item";
+import { ListItem, BagItem, TradeItem, EditItem, LinkItem, EditTraderItem } from "./item";
 import { Select, SelectItem, SelectType } from "./selects";
-import { Form, UpdateItemForm, CreateItemForm } from "./forms";
+import { 
+  Form, 
+  CreateItemForm,
+  UpdateItemForm, 
+  CreateTraderForm, 
+  UpdateTraderForm
+} from "./forms";
 import DraggableElement from "./draggableElement";
 import Header from "./header";
 import Button from "./button";
-import { NotivicationProvider } from "./notifications";
+import { NotificationProvider } from "./notifications";
 import UploadImage from "./uploadImage";
-import GamePage from "./gamePage";
 import GamePanel from "./gamePanel";
 
 export {
@@ -15,8 +20,7 @@ export {
   Button,
   List,
   DraggableElement,
-  NotivicationProvider,
-  GamePage,
+  NotificationProvider,
   GamePanel,
   // items
   ListItem,
@@ -24,6 +28,7 @@ export {
   TradeItem,
   EditItem,
   LinkItem,
+  EditTraderItem,
   // custom element
   Select,
   SelectItem,
@@ -32,5 +37,7 @@ export {
   // form
   Form,
   CreateItemForm,
-  UpdateItemForm
+  CreateTraderForm,
+  UpdateItemForm,
+  UpdateTraderForm
 };

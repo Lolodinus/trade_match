@@ -1,2 +1,2 @@
-import NotivicationProvider from "./NotificationProvider";
-export default NotivicationProvider;
+import NotificationProvider from "./NotificationProvider";
+export default NotificationProvider;

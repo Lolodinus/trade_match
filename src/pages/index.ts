@@ -1,22 +1,40 @@
 import NotFound from "./NotFound";
-import CreateItem from "./CreateItem";
-import ItemList from "./ItemList";
-import ItemDetail from "./ItemDetail";
-import { Authentication, Registration, Login, Logout } from "./Authentication";
-import Trade from "./Trade";
-import Bag from "./Bag";
+import {
+    Authentication, 
+    Registration, 
+    Login, 
+    Logout 
+} from "./Authentication";
+import { 
+    AdminePanel, 
+    ItemList, 
+    ItemCreate, 
+    ItemDetail,
+    TraderList,
+    TraderCreate,
+    TraderDetail
+} from "./AdminePanel";
+import { Game, Trade, Bag } from "./Game";
 import Menu from "./Menu";
 
 const PAGE = {
     Menu,
     NotFound,
+    // Admin panel
+    AdminePanel,
     ItemList,
     ItemDetail,
-    CreateItem,
+    ItemCreate,
+    TraderList,
+    TraderCreate,
+    TraderDetail,
+    // Authentication
     Authentication,
     Login,
     Logout,
     Registration,
+    // Game
+    Game,
     Trade,
     Bag,
 }

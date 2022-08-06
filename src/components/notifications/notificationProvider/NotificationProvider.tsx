@@ -8,7 +8,7 @@ import { Notification } from "../";
 import styles from "./NotificationProvider.module.scss";
 
 
-const NotivicationProvider = () => {
+const NotificationProvider = () => {
 	const { notifications } = useAppSelector(state => state.notificationReducer);
     const reversedNotification = [...notifications].reverse();
     return (
@@ -21,4 +21,4 @@ const NotivicationProvider = () => {
 }
 
 
-export default NotivicationProvider;
+export default NotificationProvider;

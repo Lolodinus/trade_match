@@ -2,4 +2,16 @@ import {
   IFirestorModelItem,
   IFirestorUpdateModelItem
 } from "./IFirestorModelItem";
-export { IFirestorModelItem, IFirestorUpdateModelItem };
+import { 
+	IFirestorModelTrader, 
+	IFirestorUpdateModelTrader 
+} from "./IFirebaseModelTrader";
+
+
+
+export { 
+  	IFirestorModelItem, 
+	IFirestorUpdateModelItem,
+	IFirestorModelTrader,
+	IFirestorUpdateModelTrader,
+};

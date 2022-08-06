@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import TradeMatch from "../../../services/TradeMatch/TradeMatchItem";
 import { firestoreDb } from "../../../services/firebase";
@@ -16,6 +18,9 @@ import { IFirestorUpdateModelItem } from "../../../interface/firestoreModel";
 import { isError, isItem, isType } from "../../../utils/objIsType";
 import { useAppDispatch } from "../../../hooks/redux";
 import { sendNotification } from "../../../store/reducers/notification/ActionCreators";
+
+
+const SUPPORT_FORMATS = ["image/jpg", "image/jpeg", "image/png", "image/svg"]
 interface IUpdateItemFormProps {
   item: IItem | undefined;
 }
@@ -27,6 +32,40 @@ type Inputs = {
   parentItem?: IOption,
   image: { file: File | undefined; update: boolean } | undefined;
 };
+
+const schema = yup.object().shape({
+    title: yup.string()
+		.typeError("Should be a string")
+		.min(3, "Min length 3")
+		.max(20, "Max length 20")
+		.required("Field required"),
+	price: yup.number()
+		.typeError("Should be a number")
+		.required("Field required"),
+    image: yup.object({
+        file: yup
+            .mixed()
+            .test(
+                "FILE_SIZE", 
+                "Uploaded file is too big.", 
+                (value) => {
+                    return !value || (value && value.size <= 4 * 1024 * 1024)
+                }
+            )
+            .test(
+                "FILE_FORMAT", 
+                "Uploaded file is too big.", 
+                (value) => {
+                    return !value || (value && SUPPORT_FORMATS.includes(value.type))
+                }
+            ),
+        update: yup.boolean().required(),
+    }).required(),
+    type: yup.object({
+        value: yup.string(),
+        id: yup.string()
+    }),
+}).required();
 
 const UpdateItemForm = (props: IUpdateItemFormProps) => {
 	const { item } = props;
@@ -42,7 +81,15 @@ const UpdateItemForm = (props: IUpdateItemFormProps) => {
 		setValue,
 		setError,
 		watch
-	} = useForm<Inputs>();
+	} = useForm<Inputs>({
+		defaultValues: {
+			image: {
+				file: undefined,
+				update: false
+			},
+		},
+        resolver: yupResolver(schema),
+    });
 	const selectTypeName: keyof Inputs = "type";
 	const selectChildItemName: keyof Inputs = "childItem";
 	const selectParentItemName: keyof Inputs = "parentItem";
@@ -94,17 +141,20 @@ const UpdateItemForm = (props: IUpdateItemFormProps) => {
 			if (!item) return;
 			const updateData: IFirestorUpdateModelItem = {};
 			if (data.image?.update) {
-			if (item.imgUrl) tradeMatch.deleteImgByUrl(item.imgUrl);
-			if (data.image?.file && data.image?.file instanceof File) {
-				const url = await tradeMatch.uploadImage(
-					data.image.file,
-					item.id
-				);
-				if (isError(url)) throw new Error(url.message);
-				updateData.imgUrl = url;
-			} else {
-				tradeMatch.deleteItemField(item.id, "imgUrl");
-			}
+				if(!data.image.file) {
+					return setError("image.file", {type: "File required", message: "Field required"});
+				}
+				if (item.imgUrl) tradeMatch.deleteImgByUrl(item.imgUrl);
+				if (data.image?.file && data.image?.file instanceof File) {
+					const url = await tradeMatch.uploadImage(
+						data.image.file,
+						item.id
+					);
+					if (isError(url)) throw new Error(url.message);
+					updateData.imgUrl = url;
+				} else {
+					tradeMatch.deleteItemField(item.id, "imgUrl");
+				}
 			}
 			if (item.title !== data.title) updateData.title = data.title;
 			if (item.price !== data.price) updateData.price = +data.price;
@@ -167,25 +217,14 @@ const UpdateItemForm = (props: IUpdateItemFormProps) => {
 					label: "Image",
 					body: (
 						<UploadImage
-						name={imageInputName}
-						imageFile={getValues(imageInputName)}
-						setImageFile={(
-							value: { file: File | undefined; update: boolean } | undefined
-						) => {
-							setValue(imageInputName, value, { shouldValidate: true });
-						}}
-						option={{
-							maxSize: 1024 * 1024 * 4,
-							allowedExtantion: [".jpeg", ".jpg", ".png", ".svg"]
-						}}
-						setError={(message) => {
-							setError(
-							"image.file",
-							{ type: "file", message },
-							{ shouldFocus: true }
-							);
-						}}
-						existImage={item?.imgUrl}
+							name={imageInputName}
+							imageFile={getValues(imageInputName)}
+							setImageFile={(
+								value: { file: File | undefined; update: boolean } | undefined
+							) => {
+								setValue(imageInputName, value, { shouldValidate: true });
+							}}
+							existImage={item?.imgUrl}
 						/>
 					),
 					error: errors.image?.file?.message,

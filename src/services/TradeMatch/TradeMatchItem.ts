@@ -1,7 +1,7 @@
 import { firebaseStorage, firestoreDb } from "../firebase";
-import { transformDataToItem } from "../firebase/transformData";
-import getExtention from "../../utils/getExtention";
+import { transformDataToItem, transformDataToTrader } from "../firebase/transformData";
 import { isError, isImgExt, isItem } from "../../utils/objIsType";
+import getExtention from "../../utils/getExtention";
 
 type uploadPath = "item/" | "trader/";
 
@@ -17,8 +17,13 @@ class TradeMatchItem {
 			const docRef = firestoreDb.getDocRef(this.itemPath, itemId);
 			const doc = await firestoreDb.getDoc(docRef);
 			if (!doc) throw new Error("Doc not found");
-			const item = transformDataToItem([doc]);
-			return item[0];
+			if(isItem(doc, ["title", "price"])) {
+				const item = transformDataToItem([doc]);
+				return item[0];
+			} else {
+				const trader = transformDataToTrader([doc]);
+				return trader[0];
+			}
 		} catch (error) {
 			if(isError(error)) return new Error(error.message);
 		}

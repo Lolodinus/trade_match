@@ -1,0 +1,23 @@
+@import "../../../shared/styles/colors.scss";
+@import "../../../shared/styles/fonts.scss";
+
+
+.detail {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	.detail__content {
+		width: 100%;
+		max-width: 540px;
+		padding: 1rem;
+		background-color: $main-color;
+		.detail__title {
+			@include title-font;
+			text-align: center;
+			margin: 0;
+			margin-bottom: .5rem;
+		}
+	}
+}

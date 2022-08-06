@@ -1,8 +1,8 @@
-import NotivicationProvider from "./notificationProvider";
+import NotificationProvider from "./notificationProvider";
 import Notification from "./notification";
 
 
 export {
-    NotivicationProvider,
+    NotificationProvider,
     Notification
 }

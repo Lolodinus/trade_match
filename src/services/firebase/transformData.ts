@@ -1,8 +1,8 @@
-import { isType, isItem } from "../../utils/objIsType";
+import { isType, isItem, isTrader } from "../../utils/objIsType";
 
 // Types
 import IType from "../../interface/tradeMatch/type";
-import { IItem } from "../../interface/tradeMatch";
+import { IItem, ITrader } from "../../interface/tradeMatch";
 
 function transformDataToType(data: any[]): IType[] {
 	const types: IType[] = [];
@@ -36,4 +36,20 @@ function transformDataToItem(data: any[]): IItem[] {
 	return items;
 }
 
-export { transformDataToType, transformDataToItem };
+function transformDataToTrader(data: any[]): ITrader[] {
+	const traders: ITrader[] = [];
+	for (let trader of data) {
+		if (isTrader(trader, ["id", "name", "imgUrl", "type"])) {
+			const transformTrader: ITrader = {
+				id: trader.id,
+				name: trader.name,
+				imgUrl: trader.imgUrl,
+				type: trader.type
+			};
+			traders.push(transformTrader);
+		}
+	}
+	return traders;
+}
+
+export { transformDataToType, transformDataToItem, transformDataToTrader };

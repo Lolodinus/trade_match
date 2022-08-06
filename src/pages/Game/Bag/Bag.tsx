@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { itemSwap } from "../../store/reducers/bag/BagReducer";
-import { itemMatch } from "../../store/reducers/bag/ActionCreators";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
+import { itemSwap } from "../../../store/reducers/bag/BagReducer";
+import { itemMatch } from "../../../store/reducers/bag/ActionCreators";
+import { useTitle } from "../Game";
 
 // Components
-import { List, ListItem, BagItem, DraggableElement, GamePage } from "../../components";
+import { List, ListItem, BagItem, DraggableElement } from "../../../components";
 
 // Types
-import { ICellItem } from "../../interface/tradeMatch";
-import { ICurrentCell } from "../../interface/components";
+import { ICellItem } from "../../../interface/tradeMatch";
+import { ICurrentCell } from "../../../interface/components";
 
 
 const Bag = () => {
+	const { setTitle } = useTitle();
     const dispatch = useAppDispatch();
     const [cells, setCells] = useState<ICellItem[]>();
 	const { maxBagItem } = useAppSelector(state => state.gameReducer);
@@ -38,8 +40,12 @@ const Bag = () => {
         setBagCells();
     }, [itemCells])
 
+	useEffect(() => {
+		setTitle("Bag");
+	}, [])
+
     return(
-        <GamePage title="Bag">
+        <>
             { cells && <List
                 items={cells}
                 renderItem={(item: ICellItem, index) => {
@@ -68,7 +74,7 @@ const Bag = () => {
                     );
                 }}
             /> }
-        </GamePage>
+        </>
     )
 }
 

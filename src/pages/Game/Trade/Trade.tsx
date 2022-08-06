@@ -1,16 +1,18 @@
 import React, { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { fetchItems } from "../../store/reducers/item/ActionCreators";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
+import { fetchItems } from "../../../store/reducers/item/ActionCreators";
+import { getRandomNumber } from "../../../utils/getRandomNumber";
+import { useTitle } from "../Game";
 
 // Components
-import { List, ListItem, TradeItem, GamePage } from "../../components";
+import { List, ListItem, TradeItem } from "../../../components";
 
 // Types
-import { IItem, ITraderItem } from "../../interface/tradeMatch";
-import { getRandomNumber } from "../../utils/getRandomNumber";
+import { IItem, ITraderItem } from "../../../interface/tradeMatch";
 
 
 const Trade = () => {
+	const { setTitle } = useTitle();
 	const { items } = useAppSelector(state => state.itemReducer);
 	const dispatch = useAppDispatch();
 	
@@ -19,6 +21,9 @@ const Trade = () => {
 		dispatch(fetchItems(10));
 	}, [items])
 
+	useEffect(() => {
+		setTitle("Trade");
+	}, [])
 
 	const setTraderPrice = (items: IItem[]) => {
 		const traderItems: ITraderItem[] = [];
@@ -35,7 +40,7 @@ const Trade = () => {
 	}
 
     return (
-		<GamePage title="Trade">
+		<>
 			{items && (
 				<List
 					items={ setTraderPrice(items) }
@@ -46,7 +51,7 @@ const Trade = () => {
 					)}
 				/>
 			)}
-		</GamePage>
+		</>
     )
 }
 

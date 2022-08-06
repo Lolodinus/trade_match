@@ -1,15 +1,20 @@
 const PATHS = {
     main: "/",
+    // game
     game: "game",
+    trade: "trade",
+    bag: "bag",
+    // admine panel
     adminPanell: "admin_panel",
-    createItem: "create",
-    itemList: "list",
+    createTrader: "create_trader",
+    createItem: "create_item",
+    itemList: "item_list",
+    traderList: "trader_list",
+    // authentication
     authentication: "authentication",
     registration: "registration",
     login: "login",
     logout: "logout",
-    trade: "trade",
-    bag: "bag"
 }
 
 export default PATHS;

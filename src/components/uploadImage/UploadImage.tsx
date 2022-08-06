@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark, faTrashCan, faSquarePlus } from '@fortawesome/free-solid-svg-icons';
-import { fileValidation } from "../../utils/validation";
 
 // Components
 import { Button } from "../";
@@ -11,27 +10,17 @@ import styles from "./UploadImage.module.scss";
 import imgPreview from "./img/preview.png";
 
 // Types
-type allowedExtantion = ".jpg" | ".jpeg" | ".png" | ".svg";
-
-interface IValidationOption {
-  allowedExtantion?: allowedExtantion[];
-  maxSize?: number;
-  minSize?: number;
-}
-
 interface IUploadImageProps {
   name: string;
   imageFile: { file: File | undefined; update: boolean } | undefined;
   setImageFile: (
     value: { file: File | undefined; update: boolean } | undefined
   ) => void;
-  option?: IValidationOption;
-  setError: (message: string) => void;
   existImage?: string;
 }
 
 const UploadImage = (props: IUploadImageProps) => {
-	const { name, imageFile, setImageFile, setError, option, existImage } = props;
+	const { name, imageFile, setImageFile, existImage } = props;
 	const [itemImage, setItemImage] = useState<string | undefined>();
 	const [preview, setPreview] = useState<string | undefined>();
 	const inputRef = useRef<HTMLInputElement | null>(null);
@@ -51,21 +40,8 @@ const UploadImage = (props: IUploadImageProps) => {
 	const onChangeImageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (!e.target.files) return;
 		const imageFile = e.target.files[0];
-		if (!imageValid(imageFile, option)) return;
 		setImagePreview(imageFile);
 		setImageFile({ file: imageFile, update: true });
-	};
-
-	const imageValid = (
-		file: File,
-		option: IValidationOption | undefined
-	): boolean => {
-		if (!option) return true;
-		const error = fileValidation(file, { ...option });
-		if (!error) return true;
-		setError(error);
-		uploadBtnRef.current?.focus();
-		return false;
 	};
 
 	const setImagePreview = (file: File) => {
@@ -135,11 +111,6 @@ const UploadImage = (props: IUploadImageProps) => {
 					className={ styles.uploader__input }
 					id="uploadImage"
 					type="file"
-					accept={
-						option?.allowedExtantion
-						? option.allowedExtantion.join(",")
-						: ".jpeg,.jps,.png,.svg"
-					}
 					onChange={ onChangeImageHandler }
 					ref={ inputRef }
 					name={ name }

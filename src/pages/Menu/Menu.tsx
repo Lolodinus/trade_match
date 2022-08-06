@@ -17,7 +17,7 @@ const Menu = () => {
                 <ul className={ styles.menu__list }>
 					<NavLink 
                         className={ styles.menu__item } 
-                        to={ PATHS.game }>
+                        to={ `${ PATHS.game }/${ PATHS.trade }` }>
                             Game
                     </NavLink>
                     { user?.role === "ADMINISTRATOR" &&
