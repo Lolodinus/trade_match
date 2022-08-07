@@ -1,12 +1,15 @@
 import React from "react";
 import { Outlet, NavLink } from "react-router-dom";
 import PATHS from "../../const/link";
+import { newTabTitle } from "../../utils/general";
 
 // Styles
 import styles from "./AdminePanel.module.scss";
 
 
 const AdminePanel = () => {
+    newTabTitle("Admin Panel");
+
     return (
         <div className={ styles.panel }>
             <h1 className={ styles.panel__title }>

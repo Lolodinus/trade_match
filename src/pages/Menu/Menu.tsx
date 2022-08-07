@@ -5,9 +5,12 @@ import PATHS from "../../const/link";
 
 // Styles
 import styles from "./Menu.module.scss";
+import { newTabTitle } from "../../utils/general";
 
 
 const Menu = () => {
+    newTabTitle("Menu");
+
     const { user } = useAppSelector(state => state.userReducer);
 
     return (

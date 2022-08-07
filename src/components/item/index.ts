@@ -4,6 +4,7 @@ import TradeItem from "./tradeItem";
 import EditItem from "./editItem.ts";
 import LinkItem from "./linkItem";
 import EditTraderItem from "./editTraderItem";
+import TraderItem from "./traderItem/TraderItem";
 
 
 export {
@@ -12,5 +13,6 @@ export {
     TradeItem,
     EditItem,
     LinkItem,
-    EditTraderItem
+    EditTraderItem,
+    TraderItem,
 }

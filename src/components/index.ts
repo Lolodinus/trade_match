@@ -1,5 +1,13 @@
 import List from "./list";
-import { ListItem, BagItem, TradeItem, EditItem, LinkItem, EditTraderItem } from "./item";
+import { 
+  ListItem, 
+  BagItem, 
+  TradeItem, 
+  EditItem, 
+  LinkItem, 
+  EditTraderItem,
+  TraderItem
+} from "./item";
 import { Select, SelectItem, SelectType } from "./selects";
 import { 
   Form, 
@@ -14,6 +22,7 @@ import Button from "./button";
 import { NotificationProvider } from "./notifications";
 import UploadImage from "./uploadImage";
 import GamePanel from "./gamePanel";
+import TraderBar from "./traderBar";
 
 export {
   Header,
@@ -22,6 +31,7 @@ export {
   DraggableElement,
   NotificationProvider,
   GamePanel,
+  TraderBar,
   // items
   ListItem,
   BagItem,
@@ -29,6 +39,7 @@ export {
   EditItem,
   LinkItem,
   EditTraderItem,
+  TraderItem,
   // custom element
   Select,
   SelectItem,
