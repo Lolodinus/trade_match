@@ -9,7 +9,7 @@ import { app } from "../../config/firebase";
 
 // Types
 import { FirebaseStorage, StorageReference } from "firebase/storage";
-import { imgExtantion } from "../../interface/other/other";
+import { imgExtantion } from "../../utils/getExtention";
 
 type path = "item/" | "trader/";
 type img = `${string}.${imgExtantion}`;
@@ -23,6 +23,7 @@ class FBStorage {
 		this.storage = storage;
 	}
 
+	// GET REFERENCE
 	getFileRef = (folder: path, image: img) => {
 		return ref(this.storage, `${folder}${image}`);
 	};
@@ -30,7 +31,8 @@ class FBStorage {
 	getFileRefByUrl = (url: string) => {
 		return ref(this.storage, url);
 	};
-
+	
+	// GET FILE
 	getFileUrl = async (fileRef: StorageReference) => {
 		try {
 			return await getDownloadURL(fileRef);
@@ -39,6 +41,7 @@ class FBStorage {
 		}
 	};
 
+	// CREATE FILE
 	uploadFile = async (file: File, fileRef: StorageReference) => {
 		try {
 			await uploadBytes(fileRef, file);
@@ -47,6 +50,7 @@ class FBStorage {
 		}
 	};
 
+	// DELETE FILE
 	deleteFile = async (fileRef: StorageReference) => {
 		try {
 			await deleteObject(fileRef);

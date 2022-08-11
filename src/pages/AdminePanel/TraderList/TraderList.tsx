@@ -4,8 +4,8 @@ import { faFileCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { fetchAllTrader } from "../../../store/reducers/adminePanel/ActionCreators";
 import PATHS from "../../../const/link";
-import { firestoreDb } from "../../../services/firebase";
-import { transformDataToType } from "../../../services/firebase/transformData";
+import { firestoreDb } from "../../../services/Firebase";
+import transform from "../../../utils/transformData";
 
 // Component
 import { List, ListItem, LinkItem, EditTraderItem } from "../../../components";
@@ -26,9 +26,10 @@ const TraderList = () => {
 	
     const getTypes = async() => {
         try {
-            const data = await firestoreDb.getDocs("type/");
+			const collectionRef = firestoreDb.getCollectionRef("type/");
+            const data = await firestoreDb.getAllDocs(collectionRef);
             if (!data) throw new Error("Items fetch is failed");
-            const types: IType[] = transformDataToType(data);
+            const types: IType[] = transform.toType(data);
             return types;
         } catch (error) {
             console.log(error);

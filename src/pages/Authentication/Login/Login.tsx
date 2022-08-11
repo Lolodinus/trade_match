@@ -6,7 +6,7 @@ import * as yup from "yup";
 import { sendNotification } from "../../../store/reducers/notification/ActionCreators";
 import { useAppDispatch } from "../../../hooks/redux";
 import { login } from "../../../store/reducers/user/ActionCreators";
-import { firebaseError } from "../../../services/firebase";
+import { firebaseError } from "../../../services/Firebase";
 import { isError } from "../../../utils/objIsType";
 import PATHS from "../../../const/link";
 

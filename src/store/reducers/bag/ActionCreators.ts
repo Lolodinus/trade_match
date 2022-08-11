@@ -4,7 +4,7 @@ import { isError, isItem } from "../../../utils/objIsType";
 import TradeMatchItem from "../../../services/TradeMatch/TradeMatchItem";
 
 // Type
-import { ICellItem } from "../../../interface/tradeMatch";
+import { ICellItem, IItem } from "../../../interface/tradeMatch";
 
 
 export const itemMatch = (cells: ICellItem[], dragCellId: number, dropCellId: number) => async (dispatch: AppDispatch) => {
@@ -15,7 +15,7 @@ export const itemMatch = (cells: ICellItem[], dragCellId: number, dropCellId: nu
         if (!childItemId) return;
         
         const childItem = await tmi.getItemById(childItemId);
-        if( isItem(childItem, ["id"]) ) {
+        if( isItem(childItem, ["id", "price", "title", "imgUrl", "type"]) ) {
             dispatch(itemSetInCell({
                 ...cells[dropCellId],
                 item: childItem

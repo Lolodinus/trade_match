@@ -12,7 +12,8 @@ interface IItem extends IItemBase {
 }
 
 interface ITraderItem extends IItem {
-	traderPrice: number;
+	traderPrice?: number;
+	traderId: string; 
 }
 
 export { IItemBase, IItem, ITraderItem };

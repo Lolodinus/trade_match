@@ -1,19 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchTraders } from "./ActionCreators";
+import { fetchTraders, fetchItems } from "./ActionCreators";
 
 // Type
 import { PayloadAction } from "@reduxjs/toolkit";
-import { IType, ITrader } from "../../../interface/tradeMatch";
+import { IType, ITrader, IItem, ITraderItem } from "../../../interface/tradeMatch";
 
 interface IGameState {
     money: number;
     day: number;
     bagItem: number;
     maxBagItem: number;
-    types: IType[],
-    traders: ITrader[],
+    types: IType[];
+    traders: ITrader[];
+    items: ITraderItem[];
     isLoading: boolean;
     error: string;
+    activeTrader: string | undefined;
 }
 
 const initialState: IGameState = {
@@ -23,8 +25,10 @@ const initialState: IGameState = {
     maxBagItem: 10,
     types: [],
     traders: [],
+    items: [],
     isLoading: true,
-    error: ""
+    error: "",
+    activeTrader: undefined
 }
 
 export const gameSlice = createSlice({
@@ -48,6 +52,9 @@ export const gameSlice = createSlice({
         },
         setTypes(state, action: PayloadAction<IType[]>) {
             state.types = action.payload;
+        },
+        setActiveTrader(state, action: PayloadAction<string>) {
+            state.activeTrader = action.payload;
         }
     },
     extraReducers: {
@@ -56,12 +63,24 @@ export const gameSlice = createSlice({
         },
         [fetchTraders.fulfilled.type]: (state, action: PayloadAction<ITrader[]>) => {
             state.isLoading = false;
-            state.error = ""
+            state.error = "";
             state.traders = action.payload;
         },
         [fetchTraders.rejected.type]: (state,  action: PayloadAction<string>) => {
             state.isLoading = false;
-            state.error = action.payload
+            state.error = action.payload;
+        },
+        [fetchItems.pending.type]: (state) => {
+            state.isLoading = true;
+        },
+        [fetchItems.fulfilled.type]: (state, action: PayloadAction<ITraderItem[]>) => {
+            state.isLoading = false;
+            state.error = "";
+            state.items = action.payload;
+        },
+        [fetchItems.rejected.type]: (state,  action: PayloadAction<string>) => {
+            state.isLoading = false;
+            state.error = action.payload;
         },
     }
 })

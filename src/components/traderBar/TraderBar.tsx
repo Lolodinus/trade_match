@@ -24,7 +24,6 @@ const TraderBar = () => {
 
     useEffect(() => {
         if(traders.length > 0) return;
-        console.log("work")
         dispatch(fetchTraders(3));
     }, [traders])
 
@@ -50,7 +49,7 @@ const TraderBar = () => {
                         {traders?.length > 0 && traders.map((trader) => {
                             return (
                                 <div className={ styles.bar__item } key={ trader.id }>
-                                    <TraderItem trader={ setType(trader, types) } typeTitle="Weapon"/>
+                                    <TraderItem trader={ setType(trader, types) } />
                                 </div>
                             )
                         })}

@@ -4,7 +4,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import TradeMatch from "../../../services/TradeMatch/TradeMatchItem";
-import { firestoreDb } from "../../../services/firebase";
+import { firestoreDb } from "../../../services/Firebase";
+import { adminePanelSlice } from "../../../store/reducers/adminePanel/AdminPanelReducer";
 import PATHS from "../../../const/link";
 
 // Components
@@ -14,7 +15,7 @@ import { UploadImage, SelectItem, SelectType } from "../../";
 // Types
 import { IItem } from "../../../interface/tradeMatch";
 import { IOption } from "../../../interface/components";
-import { IFirestorUpdateModelItem } from "../../../interface/firestoreModel";
+import { IFirestorUpdateModelItem, IFirestorModelItem } from "../../../interface/firestoreModel";
 import { isError, isItem, isType } from "../../../utils/objIsType";
 import { useAppDispatch } from "../../../hooks/redux";
 import { sendNotification } from "../../../store/reducers/notification/ActionCreators";
@@ -140,32 +141,26 @@ const UpdateItemForm = (props: IUpdateItemFormProps) => {
 		try {
 			if (!item) return;
 			const updateData: IFirestorUpdateModelItem = {};
-			if (data.image?.update) {
-				if(!data.image.file) {
-					return setError("image.file", {type: "File required", message: "Field required"});
-				}
-				if (item.imgUrl) tradeMatch.deleteImgByUrl(item.imgUrl);
-				if (data.image?.file && data.image?.file instanceof File) {
-					const url = await tradeMatch.uploadImage(
-						data.image.file,
-						item.id
-					);
-					if (isError(url)) throw new Error(url.message);
-					updateData.imgUrl = url;
-				} else {
-					tradeMatch.deleteItemField(item.id, "imgUrl");
-				}
-			}
 			if (item.title !== data.title) updateData.title = data.title;
 			if (item.price !== data.price) updateData.price = +data.price;
 			if (data.type.id && item.type !== data.type.id) updateData.type = data.type.id;
 			if (data.childItem?.id && item.child !== data.childItem.id) updateData.child = data.childItem.id;
 			if (data.parentItem?.id && item.parent !== data.parentItem.id) updateData.parent = data.parentItem.id;
-			if (updateData && updateData !== {}) {
-				tradeMatch.upadateItem<IFirestorUpdateModelItem>(item.id, updateData);
+			if ( data.image?.update && !data.image?.file) {
+				return setError("image.file", {
+					type: "File required", 
+					message: "Field required"
+				});
 			}
+			tradeMatch.upadateItem<IFirestorModelItem, IFirestorUpdateModelItem>(item.id, updateData, {
+				file: data.image?.file,
+				imageUrl: data.image?.update 
+					?  item.imgUrl 
+					: undefined,
+			});
 			navigate(`/${PATHS.adminPanell}`);
 			dispatch(sendNotification("Item updated", "SUCCESS"));
+			dispatch(adminePanelSlice.actions.itemReset());
 		} catch (error) {
 			dispatch(sendNotification("Error. Failed to update item.", "FAIL"));
 		}
@@ -179,19 +174,19 @@ const UpdateItemForm = (props: IUpdateItemFormProps) => {
 					label: "Title",
 					body: (
 						<input
-						type="text"
-						placeholder="Input title"
-						{...register("title", {
-							required: "Required field",
-							minLength: {
-							value: 3,
-							message: "Min length 3"
-							},
-							maxLength: {
-							value: 20,
-							message: "Max length 20"
-							}
-						})}
+							type="text"
+							placeholder="Input title"
+							{...register("title", {
+								required: "Required field",
+								minLength: {
+								value: 3,
+								message: "Min length 3"
+								},
+								maxLength: {
+								value: 20,
+								message: "Max length 20"
+								}
+							})}
 						/>
 					),
 					error: errors.title?.message
@@ -200,15 +195,15 @@ const UpdateItemForm = (props: IUpdateItemFormProps) => {
 					label: "Price",
 					body: (
 						<input
-						type="number"
-						placeholder="Input price"
-						{...register("price", {
-							required: "Required field",
-							maxLength: {
-							value: 12,
-							message: "Max length 12"
-							}
-						})}
+							type="number"
+							placeholder="Input price"
+							{...register("price", {
+								required: "Required field",
+								maxLength: {
+								value: 12,
+								message: "Max length 12"
+								}
+							})}
 						/>
 					),
 					error: errors.price?.message

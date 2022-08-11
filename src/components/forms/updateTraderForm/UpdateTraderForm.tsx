@@ -7,7 +7,7 @@ import { sendNotification } from "../../../store/reducers/notification/ActionCre
 import { adminePanelSlice } from "../../../store/reducers/adminePanel/AdminPanelReducer";
 import { isError, isType } from "../../../utils/objIsType";
 import TradeMatch from "../../../services/TradeMatch/TradeMatchItem";
-import { firestoreDb } from "../../../services/firebase";
+import { firestoreDb } from "../../../services/Firebase";
 import { useAppDispatch } from "../../../hooks/redux";
 import PATHS from "../../../const/link";
 
@@ -18,7 +18,7 @@ import { UploadImage, SelectType } from "../../";
 // Types
 import { ITrader } from "../../../interface/tradeMatch";
 import { IOption } from "../../../interface/components";
-import { IFirestorUpdateModelTrader } from "../../../interface/firestoreModel";
+import { IFirestorUpdateModelTrader, IFirestorModelTrader } from "../../../interface/firestoreModel";
 
 
 const SUPPORT_FORMATS = ["image/jpg", "image/jpeg", "image/png", "image/svg"]
@@ -107,27 +107,20 @@ const UpdateTraderForm = (props: IUpdateTraderFormProps) => {
 		try {
 			if (!trader) return;
 			const updateData: IFirestorUpdateModelTrader = {};
-			if (data.image?.update) {
-				if(!data.image.file) {
-					return setError("image.file", {type: "File required", message: "Field required"});
-				}
-				if (trader.imgUrl) tradeMatch.deleteImgByUrl(trader.imgUrl);
-				if (data.image?.file && data.image?.file instanceof File) {
-					const url = await tradeMatch.uploadImage(
-						data.image.file,
-						trader.id
-					);
-					if (isError(url)) throw new Error(url.message);
-					updateData.imgUrl = url;
-				} else {
-					tradeMatch.deleteItemField(trader.id, "imgUrl");
-				}
-			}
 			if (trader.name !== data.name) updateData.name = data.name;
 			if (data.type.id && trader.type !== data.type.id) updateData.type = data.type.id;
-			if (updateData && updateData !== {}) {
-				tradeMatch.upadateItem<IFirestorUpdateModelTrader>(trader.id, updateData);
+			if ( data.image?.update && !data.image?.file) {
+				return setError("image.file", {
+					type: "File required", 
+					message: "Field required"
+				});
 			}
+			tradeMatch.upadateItem<IFirestorModelTrader, IFirestorUpdateModelTrader>(trader.id, updateData, {
+				file: data.image?.file,
+				imageUrl: data.image?.update 
+					?  trader.imgUrl 
+					: undefined,
+			});
 			navigate(`/${ PATHS.adminPanell }/${ PATHS.traderList }`);
 			dispatch(sendNotification("Trader updated", "SUCCESS"));
 			dispatch(adminePanelSlice.actions.traderReset());

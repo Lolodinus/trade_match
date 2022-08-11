@@ -100,10 +100,10 @@ const CreateItemForm = () => {
 			
 			if (data.childItem) item = { ...item, child: data.childItem.id };
 			if (data.parentItem) item = { ...item, parent: data.parentItem.id };
-			tradeMatch.createItem<IFirestorModelItem, IFirestorUpdateModelItem>(
-			item,
-			data.image?.file,
-			{}
+			await tradeMatch.createItem<IFirestorModelItem, IFirestorUpdateModelItem>(
+				item,
+				{},
+				data.image?.file,
 			);
 			reset();
 			dispatch(

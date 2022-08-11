@@ -1,7 +1,7 @@
 // Types
-import IType from "../interface/tradeMatch/type";
-import { IItem, IUser, ITrader } from "../interface/tradeMatch";
-import { imgExtantion } from "../interface/other/other";
+import { IItem, IUser, ITrader, IType } from "../interface/tradeMatch";
+import { imgExtantion } from "./getExtention";
+
 
 function isType(object: any, properties: Array<keyof IType>): object is IType {
   for (let property of properties) {
@@ -50,5 +50,6 @@ function isImgExt(ext: any): ext is imgExtantion {
 function isFile(obj: any): obj is File {
   return obj.size !== undefined || obj.type !== undefined;
 }
+
 
 export { isType, isItem, isTrader, isUser, isError, isImgExt, isFile };

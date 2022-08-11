@@ -2,7 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCoins } from '@fortawesome/free-solid-svg-icons';
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
-import { spendMoney, getMoney, removeItem } from "../../../store/reducers/game/GameReducer";
+import { spendMoney } from "../../../store/reducers/game/GameReducer";
 import { itemAdd } from "../../../store/reducers/bag/BagReducer";
 
 // Components
@@ -34,7 +34,7 @@ const TradeItem = (props: ITradeItemProps) => {
 			</div>
 			<div className={styles.item__price}>
 				<FontAwesomeIcon icon={ faCoins } className={ styles.item__icon }/>
-				{item.traderPrice}
+				{ item.traderPrice || item.price }
 			</div>
 			<div className={styles.item__action}>
 				<Button
@@ -50,7 +50,7 @@ const TradeItem = (props: ITradeItemProps) => {
 							};
 							return;
 						};
-						dispatch(spendMoney(item.traderPrice));
+						dispatch(spendMoney(item.traderPrice || item.price));
 						dispatch(itemAdd({item, maxCells: maxBagItem}));
 					}}
 				>

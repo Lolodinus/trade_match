@@ -1,6 +1,7 @@
-import firestoreDb from "./firestoreDatabase";
-import firebaseStorage from "./firebaseStorage";
-import { firebaseSingInError, firebaseCreateUserError } from "./firebaseAuthErrorValidation";
+import firebaseStorage from "./FirebaseStorage";
+import firestoreDb from "./FirebaseDatabase";
+import firebaseAuth from "./FirebaseAuth";
+import { firebaseSingInError, firebaseCreateUserError } from "./FirebaseAuthErrorValidation";
 
 
 const firebaseError = {
@@ -9,7 +10,8 @@ const firebaseError = {
 }
 
 export { 
-    firestoreDb, 
+    firestoreDb,
     firebaseStorage,
+    firebaseAuth,
     firebaseError
 };

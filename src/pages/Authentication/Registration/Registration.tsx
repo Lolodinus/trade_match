@@ -7,7 +7,7 @@ import { useAppDispatch } from "../../../hooks/redux";
 import { sendNotification } from "../../../store/reducers/notification/ActionCreators";
 import { regisrtation } from "../../../store/reducers/user/ActionCreators";
 import { isError } from "../../../utils/objIsType";
-import { firebaseError } from "../../../services/firebase";
+import { firebaseError } from "../../../services/Firebase";
 import PATHS from "../../../const/link";
 
 // Components

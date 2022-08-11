@@ -1,25 +1,31 @@
 import React from "react";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 
 // Styles
 import styles from "./TraderItem.module.scss";
 
 // Types
 import { ITrader } from "../../../interface/tradeMatch";
+import { gameSlice } from "../../../store/reducers/game/GameReducer";
 
 interface ITraderItemProps {
     trader: ITrader;
-    typeTitle: string;
 }
 
 const TraderItem = (props: ITraderItemProps) => {
-    const { trader: { name,  imgUrl, type }, typeTitle } = props;
+    const { trader: { id, name,  imgUrl, type } } = props;
+	const { activeTrader } = useAppSelector(state => state.gameReducer);
+	const dispatch = useAppDispatch();
 
     return (
         <div className={ styles.item }>
             <h3 className={ styles.item__title }>
                 { name }
             </h3>
-            <div className={ styles.item__image }>
+            <div 
+                className={ styles.item__image }
+                onClick={() => dispatch(gameSlice.actions.setActiveTrader(id))}
+            >
                 <img  
                     src={ imgUrl }
                     alt={ name } 

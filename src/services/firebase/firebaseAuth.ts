@@ -6,7 +6,7 @@ import {
     signOut
 } from "firebase/auth";
 import { app } from "../../config/firebase";
-import { firestoreDb } from "./";
+import { firestoreDb } from ".";
 import { isError, isUser } from "../../utils/objIsType";
 
 // Type
@@ -39,7 +39,8 @@ class FirebaseAuth {
                 email: userData.email,
                 role: "USER"
             }
-            await firestoreDb.addDocWithId("user/", user.uid, data);
+            const docRef = firestoreDb.getDocRef("user/", user.uid);
+            await firestoreDb.addDocWithId(docRef, data);
             const userRef = firestoreDb.getDocRef("user/", user.uid);
             const createUser = await firestoreDb.getDoc(userRef);
             if(isUser(createUser, ["login", "role"])) { 
@@ -99,11 +100,8 @@ class FirebaseAuth {
 
     loginAlreadyExist = async(login: string) => {
         try {
-            const result = await firestoreDb.getDocsWithWhereCondition("user/", {
-                field: "login",
-                condition: "==",
-                value: login
-            });
+            const userRef = firestoreDb.getCollectionRef("user/");
+            const result = await firestoreDb.getFiltreddDocs<IUser>(userRef, "login", "==", login);
             if (result && result.length > 0) return true;
             return false;
         } catch (error) {

@@ -1,7 +1,10 @@
-import { firebaseStorage, firestoreDb } from "../firebase";
-import { transformDataToItem, transformDataToTrader } from "../firebase/transformData";
-import { isError, isImgExt, isItem } from "../../utils/objIsType";
+import { firebaseStorage, firestoreDb } from "../Firebase";
+import transform from "../../utils/transformData";
+import { isError } from "../../utils/objIsType";
 import getExtention from "../../utils/getExtention";
+
+// Types
+import { IItem, ITrader } from "../../interface/tradeMatch";
 
 type uploadPath = "item/" | "trader/";
 
@@ -11,17 +14,17 @@ class TradeMatchItem {
 	constructor(itemPath: uploadPath) {
 		this.itemPath = itemPath;
 	}
-
+	// GET
 	getItemById = async (itemId: string) => {
 		try {
 			const docRef = firestoreDb.getDocRef(this.itemPath, itemId);
 			const doc = await firestoreDb.getDoc(docRef);
-			if (!doc) throw new Error("Doc not found");
-			if(isItem(doc, ["title", "price"])) {
-				const item = transformDataToItem([doc]);
+			if (!doc) throw new Error("Document not found")
+			if(this.itemPath === "item/") {
+				const item: IItem[] = transform.toItem([doc]);
 				return item[0];
 			} else {
-				const trader = transformDataToTrader([doc]);
+				const trader: ITrader[] = transform.toTrader([doc]);
 				return trader[0];
 			}
 		} catch (error) {
@@ -29,33 +32,57 @@ class TradeMatchItem {
 		}
 	};
 
+	// CREATE
 	createItem = async <T, K extends { imgUrl?: string }>(
 		item: T,
-		file: File | undefined,
-		updateData: K
+		updateData: K,
+		file?: File,
 	) => {
 		try {
-			const createItemRef = await firestoreDb.addDoc(this.itemPath, item);
+			const docRef = firestoreDb.getCollectionRef(this.itemPath);
+			const createItemRef = await firestoreDb.addDoc(docRef, item);
 
-			if (!file || !createItemRef) return;
-			
-			const fileExt = getExtention(file);
-			if(!isImgExt(fileExt)) throw new Error("File is not image");
-			const fileRef = firebaseStorage.getFileRef(this.itemPath, `${createItemRef.id}.${fileExt}`);
-			await firebaseStorage.uploadFile(file, fileRef);
-
-			const imgUrl = await firebaseStorage.getFileUrl(fileRef);
-			if (!imgUrl)  throw new Error("Img url not found");
-			updateData.imgUrl = imgUrl;
-
-			firestoreDb.updateDoc(createItemRef, updateData);
+			if (!createItemRef) throw new Error("Failed to create item.")
+			this.upadateItem<T, K>(createItemRef.id, updateData, {
+				file
+			});
+		} catch (error) {
+			if(isError(error)) return new Error(error.message);
+		}
+	};
+	
+	uploadImage = async (imageFile: File, imgName: string) => {
+		try {
+			const fileExt = getExtention(imageFile);
+			if(!fileExt) return;
+			const imgRef = firebaseStorage.getFileRef(this.itemPath, `${imgName}.${fileExt}`);
+			await firebaseStorage.uploadFile(imageFile, imgRef);
+			return await firebaseStorage.getFileUrl(imgRef);
 		} catch (error) {
 			if(isError(error)) return new Error(error.message);
 		}
 	};
 
-	upadateItem = async <T>(itemId: string, updateData: T) => {
+	// UPDATE
+	upadateItem = async <T, K extends { imgUrl?: string }>(
+		itemId: string, 
+		updateData: K, 
+		image: {
+			imageUrl?: string, 
+			file?: File,
+		}
+	) => {
 		try {
+			if(image) {
+				const imgUrl = await this.updateImage(
+					itemId, 
+					{
+						imageUrl: image.imageUrl, 
+						file: image.file
+					}
+				);
+				if (imgUrl && !isError(imgUrl)) updateData.imgUrl = imgUrl;
+			}
 			const itemRef = firestoreDb.getDocRef(this.itemPath, itemId);
 			await firestoreDb.updateDoc(itemRef, updateData);
 		} catch (error) {
@@ -63,15 +90,22 @@ class TradeMatchItem {
 		}
 	};
 
-	deleteItemField = async (itemId: string, fieldName: string) => {
-		try {
-			const itemRef = firestoreDb.getDocRef(this.itemPath, itemId);
-			await firestoreDb.deleteDocField(itemRef, fieldName);
-		} catch (error) {
-			if(isError(error)) return new Error(error.message);
+	updateImage = async (
+		itemId: string, 
+		image: {
+			imageUrl?: string, 
+			file?: File
 		}
-	};
+	) => {
+		const { imageUrl, file } = image;
+		if(imageUrl) {
+			await this.deleteImgByUrl(imageUrl);
+			await this.deleteItemField(itemId, "imgUrl");
+		}
+		if(file) return await this.uploadImage(file, itemId);
+	}
 
+	// DELETE
 	deleteItem = async (itemId: string, imgUrl?: string | undefined) => {
 		try {
 			const itemRef = firestoreDb.getDocRef(this.itemPath, itemId);
@@ -82,18 +116,13 @@ class TradeMatchItem {
 		}
   	}
 
-	// item image
-	uploadImage = async (imageFile: File, imgName: string) => {
+	deleteItemField = async <T>(itemId: string, fieldName: keyof T) => {
 		try {
-			const fileExt = getExtention(imageFile);
-			if(!isImgExt(fileExt)) throw new Error("File is not image");
-			const imgRef = firebaseStorage.getFileRef(this.itemPath, `${imgName}.${fileExt}`);
-			await firebaseStorage.uploadFile(imageFile, imgRef);
-			return await firebaseStorage.getFileUrl(imgRef);
+			const itemRef = firestoreDb.getDocRef(this.itemPath, itemId);
+			await firestoreDb.deleteDocField(itemRef, fieldName);
 		} catch (error) {
 			if(isError(error)) return new Error(error.message);
 		}
-		
 	};
 
 	deleteImgByUrl = async (imageUrl: string) => {

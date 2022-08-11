@@ -1,8 +1,8 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import { AppDispatch } from "../../store";
 import { adminePanelSlice } from "./AdminPanelReducer";
-import { firestoreDb } from "../../../services/firebase";
-import { transformDataToItem, transformDataToTrader } from "../../../services/firebase/transformData";
+import { firestoreDb } from "../../../services/Firebase";
+import transform from "../../../utils/transformData";
 import TradeMatchItem from "../../../services/TradeMatch/TradeMatchItem";
 import { isError } from "../../../utils/objIsType";
 
@@ -17,9 +17,10 @@ export const fetchAllItems = createAsyncThunk(
     'adminePanel/fetchAllItem',
     async (_, thunkAPI) => {
         try {
-            const data = await firestoreDb.getDocs("item/");
+            const collectionRef = firestoreDb.getCollectionRef("item/");
+            const data = await firestoreDb.getAllDocs(collectionRef);
             if(!data) return;
-            const item: IItem[] = transformDataToItem(data);
+            const item: IItem[] = transform.toItem(data);
             return item;
         } catch (e) {
             return thunkAPI.rejectWithValue("Failed to load items.")
@@ -42,9 +43,10 @@ export const fetchAllTrader = createAsyncThunk(
     'adminePanel/fetchAllTrader',
     async (_, thunkAPI) => {
         try {
-            const data = await firestoreDb.getDocs("trader/");
+            const collectionRef = firestoreDb.getCollectionRef("trader/");
+            const data = await firestoreDb.getAllDocs(collectionRef);
             if(!data) return;
-            const traders: ITrader[] = transformDataToTrader(data);
+            const traders: ITrader[] = transform.toTrader(data);
             return traders;
         } catch (e) {
             return thunkAPI.rejectWithValue("Failed to load items.")

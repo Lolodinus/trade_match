@@ -86,8 +86,8 @@ const CreateTraderForm = () => {
 			};
 			tradeMatch.createItem<IFirestorModelTrader, IFirestorUpdateModelTrader>(
 			item,
+			{},
 			data.image?.file,
-			{}
 			);
 			reset();
 			dispatch(

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { firestoreDb } from "../../../services/firebase";
-import { transformDataToItem } from "../../../services/firebase/transformData";
+import { firestoreDb } from "../../../services/Firebase";
+import transform from "../../../utils/transformData";
 
 // Components
 import { Select } from "..";
@@ -27,9 +27,10 @@ const SelectItem = (props: SelectItemProps) => {
 
     const getItems = async() => {
         try {
-            const data = await firestoreDb.getDocs("item/");
+            const collectionRef = firestoreDb.getCollectionRef("item/");
+            const data = await firestoreDb.getAllDocs(collectionRef);
             if (!data) throw new Error("Items fetch is failed");
-            const items: IItem[] = transformDataToItem(data);
+            const items: IItem[] = transform.toItem(data);
             return items;
         } catch (error) {
             console.log(error);

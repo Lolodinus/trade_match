@@ -1,6 +1,6 @@
 import { AppDispatch } from "../../store";
 import { userSlice } from "./UserReducer";
-import firebaseAuth from "../../../services/firebase/firebaseAuth";
+import { firebaseAuth } from "../../../services/Firebase";
 import { isError } from "../../../utils/objIsType";
 
 // Type

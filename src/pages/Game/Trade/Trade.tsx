@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
-import { fetchItems } from "../../../store/reducers/item/ActionCreators";
+import { fetchItems } from "../../../store/reducers/game/ActionCreators";
 import { getRandomNumber } from "../../../utils/getRandomNumber";
 import { useTitle } from "../Game";
 
@@ -13,19 +13,21 @@ import { IItem, ITraderItem } from "../../../interface/tradeMatch";
 
 const Trade = () => {
 	const { setTitle } = useTitle();
-	const { items } = useAppSelector(state => state.itemReducer);
+	const { items, traders, types, activeTrader } = useAppSelector(state => state.gameReducer);
 	const dispatch = useAppDispatch();
 	
 	useEffect(() => {
-		if (!items || items.length > 0) return;
-		dispatch(fetchItems(10));
-	}, [items])
+		if (traders?.length === 0 || items?.length > 0 || types?.length === 0) return;dispatch(fetchItems({
+			traders,
+			limit: 10,
+		}));
+	}, [traders])
 
 	useEffect(() => {
 		setTitle("Trade");
 	}, [])
 
-	const setTraderPrice = (items: IItem[]) => {
+	const setTraderPrice = (items: ITraderItem[]) => {
 		const traderItems: ITraderItem[] = [];
 		for(let item of items) {
 			const repitItem = traderItems.find(traderItem => traderItem.id === item.id);
@@ -43,7 +45,9 @@ const Trade = () => {
 		<>
 			{items && (
 				<List
-					items={ setTraderPrice(items) }
+					items={ setTraderPrice(items).filter(items => {
+						return items.traderId == activeTrader
+					}) }
 					renderItem={(item) => (
 						<ListItem key={item.id} >
 							<TradeItem item={item} />
